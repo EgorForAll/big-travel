@@ -7,8 +7,13 @@ import { createPointTemplate } from "./view/point";
 import { createTripCost } from "./view/trip-cost";
 import { createEmptyListTemplate } from "./view/list-empty";
 import { createTripInfoTemplate } from "./view/trip-info-template";
+import { generateRandomPoint, generateRandomOffer } from "./mock/point";
 
-const POINT_COUNT = 3;
+const POINT_COUNT = 18;
+
+const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
+console.log(points)
+const offers = new Array(POINT_COUNT).fill().map(generateRandomOffer);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -33,9 +38,9 @@ render(siteTripBoardElement, createTripBoardTemplate(), 'beforeend');
 
 const eventListElement = siteTripBoardElement.querySelector('.trip-events__list');
 
-render(eventListElement, createEditPointTemplate(), 'beforeend');
-render(eventListElement, createNewPointTemplate(), 'beforeend');
+// render(eventListElement, createEditPointTemplate(), 'beforeend');
+// render(eventListElement, createNewPointTemplate(), 'beforeend');
 
 for (let i = 0; i < POINT_COUNT; i++) {
-  render(eventListElement, createPointTemplate(), 'beforeend');
+  render(eventListElement, createPointTemplate(points[i], offers[i]), 'beforeend');
 }
