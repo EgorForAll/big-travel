@@ -8,6 +8,7 @@ import { createTripCost } from "./view/trip-cost";
 import { createEmptyListTemplate } from "./view/list-empty";
 import { createTripInfoTemplate } from "./view/trip-info-template";
 import { generateRandomPoint, generateRandomOffer } from "./mock/point";
+import "./utils"
 
 const POINT_COUNT = 18;
 
@@ -25,7 +26,7 @@ const siteMainElement = siteBodyElement.querySelector('.trip-main');
 render(siteMainElement, createTripInfoTemplate(), 'afterbegin');
 
 const TripInfoElement = siteBodyElement.querySelector('.trip-info');
-render(TripInfoElement, createTripCost(), 'beforeend')
+render(TripInfoElement, createTripCost(points), 'beforeend');
 
 const siteMenuElement = siteBodyElement.querySelector('.trip-controls__navigation');
 render(siteMenuElement, createMainMenu(), 'beforeend');
@@ -44,3 +45,4 @@ const eventListElement = siteTripBoardElement.querySelector('.trip-events__list'
 for (let i = 0; i < POINT_COUNT; i++) {
   render(eventListElement, createPointTemplate(points[i], offers[i]), 'beforeend');
 }
+

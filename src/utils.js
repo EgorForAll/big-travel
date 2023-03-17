@@ -10,6 +10,7 @@ const getRandomInteger = (a = 0, b = 1) => {
 
 const getRandomArr = (arr) => arr[getRandomInteger(0, arr.length -1)];
 
+// Генерация случайной даты
 const generateDate = () => {
   const dateRandom = new Date(2023, getRandomInteger(0, 12), getRandomInteger(0, 30), getRandomInteger(0, 24), getRandomInteger(0, 60));
 
@@ -22,6 +23,7 @@ const generateDate = () => {
   }
 }
 
+// Поиск картинки по типу
 const checkPng = (type, png) => {
   for (let item of png) {
     let path = item.slice(10, -4);
@@ -31,4 +33,7 @@ const checkPng = (type, png) => {
   }
 }
 
-export {getRandomInteger, getRandomArr, generateDate, checkPng }
+const sumPrice = (arr) => {arr.reduce((accumulator, current) => accumulator + current.price)};
+
+
+export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice }
