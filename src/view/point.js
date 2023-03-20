@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { createOfferTemplate } from "./offer";
 
 export const createPointTemplate = (point, offer) => {
   const favoriteBtn = document.querySelector('.event__favorite-btn');
@@ -9,7 +10,7 @@ export const createPointTemplate = (point, offer) => {
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src=${point.image} alt="Event type icon">
                 </div>
-                <h3 class="event__title">${point.type}</h3>
+                <h3 class="event__title">${point.type} ${point.destination.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
                     <time class="event__start-time" datetime=${point.date_from.format('YYYY-MM-DDTHH:mm')}>${point.date_from.format('HH:mm')}</time>
@@ -23,11 +24,7 @@ export const createPointTemplate = (point, offer) => {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  <li class="event__offer">
-                    <span class="event__offer-title">${offer.options.title}</span>
-                    &plus;&euro;&nbsp;
-                    <span class="event__offer-price">${offer.options.price}</span>
-                  </li>
+                  ${offer.options.map((item) => createOfferTemplate(item)).join('')}
                 </ul>
                 <button class="event__favorite-btn ${point.is_favorite ? 'event__favorite-btn--active' : null}" type="button">
                   <span class="visually-hidden">Add to favorite</span>

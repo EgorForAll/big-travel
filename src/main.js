@@ -7,14 +7,16 @@ import { createPointTemplate } from "./view/point";
 import { createTripCost } from "./view/trip-cost";
 import { createEmptyListTemplate } from "./view/list-empty";
 import { createTripInfoTemplate } from "./view/trip-info-template";
-import { generateRandomPoint, generateRandomOffer } from "./mock/point";
-import "./utils"
+import { generateRandomPoint} from "./mock/point";
+import { generateRandomOffer } from "./mock/offer";
+
 
 const POINT_COUNT = 18;
 
 const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
-console.log(points)
+console.log(points);
 const offers = new Array(POINT_COUNT).fill().map(generateRandomOffer);
+console.log(offers)
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -39,10 +41,28 @@ render(siteTripBoardElement, createTripBoardTemplate(), 'beforeend');
 
 const eventListElement = siteTripBoardElement.querySelector('.trip-events__list');
 
-// render(eventListElement, createEditPointTemplate(), 'beforeend');
 // render(eventListElement, createNewPointTemplate(), 'beforeend');
 
 for (let i = 0; i < POINT_COUNT; i++) {
   render(eventListElement, createPointTemplate(points[i], offers[i]), 'beforeend');
+}
+
+
+// Отрисовка формы редактирования
+const rollupBtnArray = Array.from(siteBodyElement.querySelectorAll('.event__rollup-btn'));
+const containerEvents = Array.from(eventListElement.querySelectorAll('.event'));
+const listItemElements = Array.from(eventListElement.querySelectorAll('.trip-events__item'));
+
+for (let i = 0; i < rollupBtnArray.length; i++) {
+  rollupBtnArray[i].addEventListener('click', () => {
+    listItemElements[i].removeChild(containerEvents[i]);
+    render(listItemElements[i], createEditPointTemplate(points[i], offers[i]), 'beforeend');
+    const form = listItemElements[i].querySelector('.event--edit');
+    const formRollupBtn = form.querySelector('.event__rollup-btn');
+    formRollupBtn.addEventListener('click', () => {
+      listItemElements[i].removeChild(form);
+      listItemElements[i].appendChild(containerEvents[i]);
+    })
+    })
 }
 

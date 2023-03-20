@@ -1,7 +1,5 @@
 import { TYPE, NAMES, DESCS, OFFER_TITLES, PNG } from "./const";
 import { getRandomInteger, getRandomArr, generateDate, checkPng } from "../utils";
-import dayjs from "dayjs";
-
 
 export const generateRandomPoint = () => {
   const getRandomDate = generateDate();
@@ -37,14 +35,3 @@ export const generateRandomPoint = () => {
     }
     }  
   }
-
-export const generateRandomOffer = () => {
-    return {
-      type: getRandomArr(TYPE),
-      options: {
-        title: getRandomArr(OFFER_TITLES),
-        price: getRandomInteger(0, 200)
-      }
-    }
-}
-
