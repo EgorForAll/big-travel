@@ -1,5 +1,5 @@
 import { createEditPointTemplate } from "./view/edit-point";
-import { createFilterTemplate } from "./view/filter";
+import { filterTemplate } from "./view/filter";
 import { createMainMenu } from "./view/main-menu";
 import { createTripBoardTemplate } from "./view/trip-board";
 import { createNewPointTemplate } from "./view/new-point";
@@ -9,6 +9,7 @@ import { createEmptyListTemplate } from "./view/list-empty";
 import { createTripInfoTemplate } from "./view/trip-info-template";
 import { generateRandomPoint} from "./mock/point";
 import { generateRandomOffer } from "./mock/offer";
+import { generateFilter } from "./mock/filter";
 
 
 const POINT_COUNT = 18;
@@ -17,6 +18,7 @@ const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
 console.log(points);
 const offers = new Array(POINT_COUNT).fill().map(generateRandomOffer);
 console.log(offers)
+const filters = generateFilter(points);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -25,7 +27,7 @@ const render = (container, template, place) => {
 const siteBodyElement = document.querySelector('.page-body');
 
 const siteMainElement = siteBodyElement.querySelector('.trip-main');
-render(siteMainElement, createTripInfoTemplate(), 'afterbegin');
+render(siteMainElement, createTripInfoTemplate(points), 'afterbegin');
 
 const TripInfoElement = siteBodyElement.querySelector('.trip-info');
 render(TripInfoElement, createTripCost(points), 'beforeend');
@@ -34,7 +36,7 @@ const siteMenuElement = siteBodyElement.querySelector('.trip-controls__navigatio
 render(siteMenuElement, createMainMenu(), 'beforeend');
 
 const siteFilterElement = siteBodyElement.querySelector('.trip-controls__filters');
-render(siteFilterElement, createFilterTemplate(), 'beforeend');
+render(siteFilterElement, filterTemplate(filters), 'beforeend');
 
 const siteTripBoardElement = siteBodyElement.querySelector('.trip-events');
 render(siteTripBoardElement, createTripBoardTemplate(), 'beforeend');
@@ -47,6 +49,9 @@ for (let i = 0; i < POINT_COUNT; i++) {
   render(eventListElement, createPointTemplate(points[i], offers[i]), 'beforeend');
 }
 
+// Форма создания новой точки маршрута
+const newEventBtn = siteMainElement.querySelector('.trip-main__event-add-btn');
+newEventBtn.addEventListener('click', () => render(eventListElement, createNewPointTemplate(), 'beforeend'))
 
 // Отрисовка формы редактирования
 const rollupBtnArray = Array.from(siteBodyElement.querySelectorAll('.event__rollup-btn'));

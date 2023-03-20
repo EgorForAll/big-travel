@@ -36,4 +36,14 @@ const checkPng = (type, png) => {
 const sumPrice = (arr) => {arr.reduce((accumulator, current) => accumulator + current.price)};
 
 
-export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice }
+// Фильтры
+
+const isFuture = (dueDate) => {
+  return dueDate === null ? false : dayjs().isAfter(dueDate, 'D');
+};
+
+const isPast = (dueDate) => {
+  return dueDate === null ? fasle : dayjs().isBefore(dueDate, 'D');
+}
+
+export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice, isFuture, isPast }

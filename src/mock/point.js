@@ -5,21 +5,20 @@ export const generateRandomPoint = () => {
   const getRandomDate = generateDate();
 
   return {
-    id: 0,
     type: getRandomArr(TYPE),
     price: getRandomInteger(0, 1500),
     date_from: getRandomDate.dateFrom,
     date_to: getRandomDate.dateTo,
     is_favorite: Boolean(getRandomInteger(0, 1)),
-    destination : {
+    destination: {
       description: getRandomArr(DESCS),
       name: getRandomArr(NAMES),
       pictures: [
-        {
-          src: `http://picsum.photos/248/152?r=${getRandomInteger(0, 5)}`,
-          description: getRandomArr(DESCS)
-        }
-        ],
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
+        ]
       },
     get image() {
       return checkPng(this.type.toLowerCase(), PNG)

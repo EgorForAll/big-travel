@@ -31,4 +31,7 @@ const OFFER_TITLES = [
   'Switch to comfort'
   ]
 
-export { TYPE, DESCS, NAMES, OFFER_TITLES, PNG }
+  const FORM_DATE_FORMAT_ONE = 'YY/MM/DDTHH:mm';
+
+
+export { TYPE, DESCS, NAMES, OFFER_TITLES, PNG, FORM_DATE_FORMAT_ONE }

@@ -1,4 +1,6 @@
+import { FORM_DATE_FORMAT_ONE } from "../mock/const";
 import { createOfferSelector } from "./offer-selector";
+
 export const createEditPointTemplate = (point, offer) => {
 
   return `    <form class="event event--edit" action="#" method="post">
@@ -6,7 +8,7 @@ export const createEditPointTemplate = (point, offer) => {
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
                       <span class="visually-hidden">Choose event type</span>
-                      <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
+                      <img class="event__type-icon" width="17" height="17" src=${point.image} alt="Event type icon">
                     </label>
                     <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -81,10 +83,10 @@ export const createEditPointTemplate = (point, offer) => {
 
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value=${point.date_from.format('YY/MM/DDHH:mm')}>
+                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value=${point.date_from.format(FORM_DATE_FORMAT_ONE)}>
                     &mdash;
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value=${point.date_to.format('YY/MM/DDHH:mm')}>
+                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value=${point.date_to.format(FORM_DATE_FORMAT_ONE)}>
                   </div>
 
                   <div class="event__field-group  event__field-group--price">
@@ -112,7 +114,15 @@ export const createEditPointTemplate = (point, offer) => {
 
                   <section class="event__section  event__section--destination">
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                    <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.</p>
+                    <p class="event__destination-description">${point.destination.description}</p>
+                     <div class="event__photos-container">
+                      <div class="event__photos-tape">
+                      ${point.destination.pictures.map((item) => {
+                        return `<img class="event__photo" src=${item} alt="Event photo"/>`;
+                      }).join('')}
+
+                      </div>
+                    </div>
                   </section>
                 </section>
               </form>`;
