@@ -80,4 +80,11 @@ export const createElement = (template) => {
 // то есть быть чем-то вроде <nav><a>Link 1</a><a>Link 2</a></nav>,
 // а не просто <a>Link 1</a><a>Link 2</a>
 
+export const closeEditForm = (evt, parent, point, form) => {
+  evt.preventDefault();
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
+    parent.replaceChild(point, form);
+  }
+}
+
 export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice, isFuture, isPast }
