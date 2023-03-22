@@ -1,9 +1,11 @@
 import { FORM_DATE_FORMAT_ONE } from "../mock/const";
 import { createOfferSelector } from "./offer-selector";
+import { createElement } from "../utils";
+import { EMPTY_POINT } from "../mock/point";
 
-export const createEditPointTemplate = (point, offer) => {
+const createEditPointTemplate = (point = EMPTY_POINT, offer) => {
 
-  return `    <form class="event event--edit" action="#" method="post">
+  return      `<form class="event event--edit" action="#" method="post">
                 <header class="event__header">
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -126,4 +128,28 @@ export const createEditPointTemplate = (point, offer) => {
                   </section>
                 </section>
               </form>`;
+}
+
+export default class PointEditForm {
+  constructor(point = EMPTY_POINT, offer) {
+  this._element = null;
+  this._point = point;
+  this._offer = offer;
+ }
+ 
+ getTemplate() {
+  return createEditPointTemplate(this._point, this._offer)
+ }
+
+ getElement() {
+  if (!this._element) {
+    this._element = createElement(this.getTemplate())
+  }
+
+  return this._element;
+ }
+
+ removeElement() {
+  this._element = null;
+ }
 }

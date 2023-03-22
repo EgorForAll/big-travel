@@ -1,10 +1,10 @@
-import dayjs from "dayjs";
 import { createOfferTemplate } from "./offer";
+import { createElement } from "../utils";
+import { EMPTY_POINT } from "../mock/point";
 
-export const createPointTemplate = (point, offer) => {
-  const favoriteBtn = document.querySelector('.event__favorite-btn');
+const createPointTemplate = (point = EMPTY_POINT, offer) => {
 
-  return `  <li class="trip-events__item">
+  return    `<li class="trip-events__item">
               <div class="event">
                 <time class="event__date" datetime=${point.date_from.format('YYYY-MM-DD')}>${point.date_from.format("MMM D")}</time>
                 <div class="event__type">
@@ -37,4 +37,28 @@ export const createPointTemplate = (point, offer) => {
                 </button>
               </div>
             </li>`;
+}
+
+export default class PointView {
+ constructor(point = EMPTY_POINT, offer) {
+  this._element = null;
+  this._point = point;
+  this._offer = offer;
+ }
+ 
+ getTemplate() {
+  return createPointTemplate(this._point, this._offer)
+ }
+
+ getElement() {
+  if (!this._element) {
+    this._element = createElement(this.getTemplate())
+  }
+
+  return this._element;
+ }
+
+ removeElement() {
+  this._element = null;
+ }
 }

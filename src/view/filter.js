@@ -1,3 +1,5 @@
+import { createElement } from "../utils";
+
 const createFilterItemTemplate = (filter, isChecked) => {
   const {name, count} = filter;
 
@@ -12,7 +14,7 @@ const createFilterItemTemplate = (filter, isChecked) => {
   );
 };
 
-export const filterTemplate = (filterItems) => {
+const filterTemplate = (filterItems) => {
   const filterItemsTemplate = filterItems
     .map((filter, index) => createFilterItemTemplate(filter, index === 0))
     .join('');
@@ -22,4 +24,26 @@ export const filterTemplate = (filterItems) => {
   </form>`
 };
 
+export default class FitersView {
+  constructor(filters) {
+    this._element = null;
+    this._filters = filters;
+  }
+
+  getTemplate() {
+    return filterTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
 
