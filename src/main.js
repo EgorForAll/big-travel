@@ -14,7 +14,7 @@ import EmptyCostView from "./view/empty-cost";
 import EmptyList from "./view/list-empty";
 import PointsListView from "./view/list";
 import PointEditForm from "./view/edit-point";
-
+  console.log(PointEditForm)
 const POINT_COUNT = 18;
 
 const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
@@ -66,24 +66,20 @@ for (let i = 0; i < POINT_COUNT; i++) {
     }
   }
 
-  const showEditFormButton = pointListItem.querySelector('.event__rollup-btn');
-  showEditFormButton.addEventListener('click', () =>  {
+  pointComponent.setShowFormHanler(() => {
     pointListItem.replaceChild(editFormTemplate, eventDiv);
     document.addEventListener('keydown', onEscButton)
-    });
+  })
 
-  const hideEditFormButton = editFormTemplate.querySelector('.event__rollup-btn');
-  hideEditFormButton.addEventListener('click', () => {
+  editForm.hideEditFormClickHandler(() => {
     pointListItem.replaceChild(eventDiv, editFormTemplate);
     document.removeEventListener('keydown', onEscButton);
-    });
+  })
 
-  const editPointButton = editFormTemplate.querySelector('.event__save-btn');
-  editPointButton.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    pointListItem.replaceChild(eventDiv, editFormTemplate);
-    document.removeEventListener('keydown', onEscButton);
-  });
+  editForm.setFormSubmitHandler(() => {
+      pointListItem.replaceChild(eventDiv, editFormTemplate);
+      document.removeEventListener('keydown', onEscButton);
+    })
 }
 
 }

@@ -5,7 +5,7 @@ import Abstract from "./abstract";
 
 const createEditPointTemplate = (point = EMPTY_POINT, offer) => {
 
-  return      `<form class="event event--edit" action="#" method="post">
+  return      `<form class="event event--edit" action="#" method="post" id="form">
                 <header class="event__header">
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -131,13 +131,35 @@ const createEditPointTemplate = (point = EMPTY_POINT, offer) => {
 }
 
 export default class PointEditForm extends Abstract {
-  constructor(point = EMPTY_POINT, offer) {
-  super();
-  this._point = point;
-  this._offer = offer;
- }
- 
- getTemplate() {
-  return createEditPointTemplate(this._point, this._offer)
- }
+   constructor(point = EMPTY_POINT, offer) {
+    super();
+    this._point = point;
+    this.offer = offer;
+
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formClickHandler = this._formClickHandler.bind(this);
+  }
+
+  getTemplate() {
+    return createEditPointTemplate(this._point, this.offer);
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  _formClickHandler(evt) {
+    this._callback.clickHide();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().addEventListener('submit', this._formSubmitHandler);
+  }
+
+  hideEditFormClickHandler(callback) {
+    this._callback.clickHide = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._formClickHandler);
+  }
 }

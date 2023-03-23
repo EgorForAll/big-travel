@@ -44,10 +44,21 @@ export default class PointView extends Abstract {
   super()
   this._point = point;
   this._offer = offer;
+
+  this._showFormHandler = this._showFormHandler.bind(this);
  }
  
  getTemplate() {
   return createPointTemplate(this._point, this._offer)
+ }
+
+ _showFormHandler() {
+  this._callback.showFormClick();
+ }
+
+ setShowFormHanler(callback) {
+  this._callback.showFormClick = callback;
+  this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._showFormHandler)
  }
 
 }
