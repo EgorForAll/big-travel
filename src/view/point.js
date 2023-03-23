@@ -1,6 +1,6 @@
 import { createOfferTemplate } from "./offer";
-import { createElement } from "../utils";
 import { EMPTY_POINT } from "../mock/point";
+import Abstract from "./abstract";
 
 const createPointTemplate = (point = EMPTY_POINT, offer) => {
 
@@ -39,9 +39,9 @@ const createPointTemplate = (point = EMPTY_POINT, offer) => {
             </li>`;
 }
 
-export default class PointView {
+export default class PointView extends Abstract {
  constructor(point = EMPTY_POINT, offer) {
-  this._element = null;
+  super()
   this._point = point;
   this._offer = offer;
  }
@@ -50,15 +50,4 @@ export default class PointView {
   return createPointTemplate(this._point, this._offer)
  }
 
- getElement() {
-  if (!this._element) {
-    this._element = createElement(this.getTemplate())
-  }
-
-  return this._element;
- }
-
- removeElement() {
-  this._element = null;
- }
 }

@@ -1,4 +1,4 @@
-import { createElement } from "../utils";
+import Abstract from "./abstract";
 
 const createEmptyTripInfo = () => {
   return `<section class="trip-main__trip-info  trip-info">
@@ -9,24 +9,8 @@ const createEmptyTripInfo = () => {
           </section>`;
 }
 
-export default class EmptyTripInfo {
-  constructor() {
-    this._element = null;
-  }
-
+export default class EmptyTripInfo extends Abstract {
   getTemplate() {
     return createEmptyTripInfo();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
