@@ -2,7 +2,7 @@ import { generateRandomPoint} from "./mock/point";
 import { generateRandomOffer } from "./mock/offer";
 import { generateFilter } from "./mock/filter";
 import { render, RenderPosition } from "./utils/render";
-import { closeEditForm } from "./utils/utils";
+import { closeEditForm } from "./utils/point";
 import EmptyTripInfo from "./view/trip-info-empty";
 import MainMenuView from './view/main-menu';
 import SortTemplateView from "./view/trip-sort";

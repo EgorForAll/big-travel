@@ -1,4 +1,4 @@
-import { createElement } from "../utils/utils";
+import { createElement } from "../utils/common";
 import Abstract from "./abstract";
 const createTripCost = () => {
   return `<p class="trip-info__cost">

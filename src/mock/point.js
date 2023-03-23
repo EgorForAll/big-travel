@@ -1,5 +1,5 @@
 import { TYPE, NAMES, DESCS, OFFER_TITLES, PNG } from "./const";
-import { getRandomInteger, getRandomArr, generateDate, checkPng } from "../utils/utils";
+import { getRandomInteger, getRandomArr, generateDate, checkPng } from "../utils/common";
 import dayjs from "dayjs";
 
 export const generateRandomPoint = () => {

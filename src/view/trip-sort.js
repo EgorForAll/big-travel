@@ -1,4 +1,4 @@
-import { createElement } from "../utils/utils";
+import { createElement } from "../utils/common";
 import AbstractView from "./abstract";
 
 const createTripSortTemplate = () => {

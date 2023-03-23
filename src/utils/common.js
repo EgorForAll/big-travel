@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-
 // Функция по генерации случайного целого числа
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -35,22 +34,4 @@ const checkPng = (type, png) => {
 
 const sumPrice = (arr) => {arr.reduce((accumulator, current) => accumulator + current.price)};
 
-
-// Фильтры
-
-const isFuture = (dueDate) => {
-  return dueDate === null ? false : dayjs().isAfter(dueDate, 'D');
-};
-
-const isPast = (dueDate) => {
-  return dueDate === null ? fasle : dayjs().isBefore(dueDate, 'D');
-}
-
-export const closeEditForm = (evt, parent, point, form) => {
-  evt.preventDefault();
-  if (evt.key === 'Escape' || evt.key === 'Esc') {
-    parent.replaceChild(point, form);
-  }
-}
-
-export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice, isFuture, isPast }
+export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice}

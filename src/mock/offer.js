@@ -1,4 +1,4 @@
-import { getRandomArr, getRandomInteger } from "../utils/utils";
+import { getRandomArr, getRandomInteger } from "../utils/common";
 import { TYPE, OFFER_TITLES } from "./const";
 
 export const generateRandomOffer = () => {
