@@ -1,8 +1,8 @@
 import { generateRandomPoint} from "./mock/point";
 import { generateRandomOffer } from "./mock/offer";
 import { generateFilter } from "./mock/filter";
-import { renderElement, RenderPosition } from "./utils";
-import { closeEditForm } from "./utils";
+import { render, RenderPosition } from "./utils/render";
+import { closeEditForm } from "./utils/utils";
 import EmptyTripInfo from "./view/trip-info-empty";
 import MainMenuView from './view/main-menu';
 import SortTemplateView from "./view/trip-sort";
@@ -26,24 +26,24 @@ const siteMainElement = siteBodyElement.querySelector('.trip-main');
 const siteTripBoardElement = siteBodyElement.querySelector('.trip-events');
 
 const siteMenuElement = siteBodyElement.querySelector('.trip-controls__navigation');
-renderElement(siteMenuElement, new MainMenuView().getElement(), RenderPosition.BEFOREEND);
+render(siteMenuElement, new MainMenuView(), RenderPosition.BEFOREEND);
 
 const siteFilterElement = siteBodyElement.querySelector('.trip-controls__filters');
-renderElement(siteFilterElement, new FitersView(filters).getElement(), RenderPosition.BEFOREEND);
+render(siteFilterElement, new FitersView(filters), RenderPosition.BEFOREEND);
 
 if (points.length === 0) {
-renderElement(siteMainElement, new EmptyTripInfo().getElement(), RenderPosition.AFTERBEGIN);
-renderElement(siteMainElement, new EmptyCostView().getElement(), RenderPosition.AFTERBEGIN);
-renderElement(siteTripBoardElement, new EmptyList().getElement(), RenderPosition.AFTERBEGIN);
+render(siteMainElement, new EmptyTripInfo(), RenderPosition.AFTERBEGIN);
+render(siteMainElement, new EmptyCostView(), RenderPosition.AFTERBEGIN);
+render(siteTripBoardElement, new EmptyList(), RenderPosition.AFTERBEGIN);
 } else {
 
-renderElement(siteMainElement, new TripInfoView(points).getElement(), RenderPosition.AFTERBEGIN);
+render(siteMainElement, new TripInfoView(points).getElement(), RenderPosition.AFTERBEGIN);
 
 const TripInfoElement = siteBodyElement.querySelector('.trip-info');
-renderElement(TripInfoElement, new TripCostView(points).getElement(), RenderPosition.BEFOREEND);
+render(TripInfoElement, new TripCostView(points), RenderPosition.BEFOREEND);
 
-renderElement(siteTripBoardElement, new SortTemplateView().getElement(), RenderPosition.BEFOREEND);
-renderElement(siteTripBoardElement, new PointsListView().getElement(), RenderPosition.BEFOREEND);
+render(siteTripBoardElement, new SortTemplateView(), RenderPosition.BEFOREEND);
+render(siteTripBoardElement, new PointsListView(), RenderPosition.BEFOREEND);
 
 const sitePointsList = siteBodyElement.querySelector('.trip-events__list');
 
@@ -54,8 +54,8 @@ for (let i = 0; i < POINT_COUNT; i++) {
   const pointListItem = pointComponent.getElement();
   const eventDiv = pointListItem.querySelector('.event');
 
-  renderElement(sitePointsList, pointListItem, RenderPosition.AFTERBEGIN);
-  renderElement(pointListItem, editFormTemplate, RenderPosition.BEFOREEND);
+  render(sitePointsList, pointListItem, RenderPosition.AFTERBEGIN);
+  render(pointListItem, editFormTemplate, RenderPosition.BEFOREEND);
   pointListItem.replaceChild(eventDiv, editFormTemplate);
 
   const onEscButton = (evt) => {
