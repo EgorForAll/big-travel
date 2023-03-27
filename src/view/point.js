@@ -2,7 +2,7 @@ import { createOfferTemplate } from "./offer";
 import { EMPTY_POINT } from "../mock/point";
 import Abstract from "./abstract";
 
-const createPointTemplate = (point = EMPTY_POINT, offer) => {
+const createPointTemplate = (point = EMPTY_POINT) => {
 
   return    `<li class="trip-events__item">
               <div class="event">
@@ -24,7 +24,7 @@ const createPointTemplate = (point = EMPTY_POINT, offer) => {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${offer.options.map((item) => createOfferTemplate(item)).join('')}
+                  ${point.offer.options.map((item) => createOfferTemplate(item)).join('')}
                 </ul>
                 <button class="event__favorite-btn ${point.is_favorite ? 'event__favorite-btn--active' : null}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
@@ -40,16 +40,15 @@ const createPointTemplate = (point = EMPTY_POINT, offer) => {
 }
 
 export default class PointView extends Abstract {
- constructor(point = EMPTY_POINT, offer) {
+ constructor(point = EMPTY_POINT) {
   super()
   this._point = point;
-  this._offer = offer;
 
   this._showFormHandler = this._showFormHandler.bind(this);
  }
  
  getTemplate() {
-  return createPointTemplate(this._point, this._offer)
+  return createPointTemplate(this._point)
  }
 
  _showFormHandler() {

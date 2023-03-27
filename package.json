@@ -9,7 +9,20 @@
     "build": "webpack --mode development",
     "start": "webpack-dev-server --open"
   },
+  "eslintConfig": {
+    "extends": "react-app",
+    "rules": {
+      "no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ]
+    }
+  },
   "devDependencies": {
+    "babel-eslint": "10.1.0",
     "eslint": "8.36.0",
     "eslint-config-htmlacademy": "9.0.0",
     "webpack": "5.76.1",

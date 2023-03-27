@@ -3,7 +3,7 @@ import { createOfferSelector } from "./offer-selector";
 import { EMPTY_POINT } from "../mock/point";
 import Abstract from "./abstract";
 
-const createEditPointTemplate = (point = EMPTY_POINT, offer) => {
+const createEditPointTemplate = (point = EMPTY_POINT) => {
 
   return      `<form class="event event--edit" action="#" method="post" id="form">
                 <header class="event__header">
@@ -110,7 +110,7 @@ const createEditPointTemplate = (point = EMPTY_POINT, offer) => {
                     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
                     <div class="event__available-offers">                   
-                      ${offer.options.map((element) => createOfferSelector(element)).join('')}
+                      ${point.offer.options.map((element) => createOfferSelector(element)).join('')}
                     </div>
                   </section>
 
@@ -131,17 +131,16 @@ const createEditPointTemplate = (point = EMPTY_POINT, offer) => {
 }
 
 export default class PointEditForm extends Abstract {
-   constructor(point = EMPTY_POINT, offer) {
+   constructor(point = EMPTY_POINT) {
     super();
     this._point = point;
-    this.offer = offer;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formClickHandler = this._formClickHandler.bind(this);
   }
 
   getTemplate() {
-    return createEditPointTemplate(this._point, this.offer);
+    return createEditPointTemplate(this._point);
   }
 
   _formSubmitHandler(evt) {

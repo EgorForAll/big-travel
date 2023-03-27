@@ -21,6 +21,23 @@ export const generateRandomPoint = () => {
             `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
         ]
       },
+    offer: {
+      type: getRandomArr(TYPE),
+       options: [
+        {
+          title: 'Upgrade to a business class',
+          price: 100
+        },
+        {
+          title: 'Add luggage',
+          price: 50
+        },
+        {
+          title: 'Rent a car',
+          price: 150
+        }
+      ]
+    },
     get image() {
       return checkPng(this.type.toLowerCase(), PNG)
     },
@@ -55,5 +72,22 @@ export const generateRandomPoint = () => {
       msec -= hh * 1000 * 60 * 60;
       var mm = Math.floor(msec / 1000 / 60);
       return `${hh}H ${mm}M`
+    },
+    offer: {
+      type: getRandomArr(TYPE),
+       options: [
+        {
+          title: 'Upgrade to a business class',
+          price: 100
+        },
+        {
+          title: 'Add luggage',
+          price: 50
+        },
+        {
+          title: 'Rent a car',
+          price: 150
+        }
+      ]
     }
   }
