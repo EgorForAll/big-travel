@@ -1,11 +1,13 @@
 import { TYPE, NAMES, DESCS, OFFER_TITLES, PNG } from "./const";
 import { getRandomInteger, getRandomArr, generateDate, checkPng } from "../utils/common";
 import dayjs from "dayjs";
+import {nanoid} from 'nanoid';
 
 export const generateRandomPoint = () => {
   const getRandomDate = generateDate();
 
   return {
+    id: nanoid(),
     type: getRandomArr(TYPE),
     price: getRandomInteger(0, 1500),
     date_from: getRandomDate.dateFrom,

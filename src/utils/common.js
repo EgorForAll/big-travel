@@ -34,4 +34,18 @@ const checkPng = (type, png) => {
 
 const sumPrice = (arr) => {arr.reduce((accumulator, current) => accumulator + current.price)};
 
-export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice}
+const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1),
+  ];
+};
+
+export {getRandomInteger, getRandomArr, generateDate, checkPng, sumPrice, updateItem}

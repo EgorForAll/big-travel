@@ -22,6 +22,8 @@ export default class Board {
     this._emptyTripInfo = new EmptyTripInfo();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
+
+    this._pointPresenter = {};
   }
 
   init(boardPoints) {
@@ -63,7 +65,8 @@ export default class Board {
 
   _renderPoint(point) {
   const pointPresenter = new Point(this._pointsListComponent);
-  pointPresenter.init(point)
+  pointPresenter.init(point);
+  this._pointPresenter[point.id] = pointPresenter;
   }
 
   _renderPoints() {
@@ -82,5 +85,12 @@ export default class Board {
 
     this._renderSort();
     this._renderPoints();
+  }
+
+  _clearPointList() {
+    Object
+      .values(this._pointPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._pointPresenter = {};
   }
 }
