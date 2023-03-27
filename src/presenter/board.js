@@ -5,6 +5,7 @@ import TripInfoView from "../view/trip-info-template";
 import EmptyTripInfo from "../view/trip-info-empty";
 import TripCostView from "../view/trip-cost";
 import PointsListView from "../view/list";
+import Point from "./point";
 import EmptyList from "../view/list-empty";
 import EmptyCostView from "../view/empty-cost";
 import { render,  RenderPosition } from "../utils/render";
@@ -61,52 +62,20 @@ export default class Board {
   }
 
   _renderPoint(point) {
-    const pointComponent = new PointView(point);
-    const editForm = new PointEditForm(point);
-    const editFormTemplate = editForm.getElement();
-    const pointListItem = pointComponent.getElement();
-    const eventDiv = pointListItem.querySelector('.event');
-
-    const onEscButton = (evt) => {
-    evt.preventDefault();
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-    pointListItem.replaceChild(eventDiv, editFormTemplate);
-    document.removeEventListener('keydown', onEscButton)
-    }
-  }
-
-  pointComponent.setShowFormHanler(() => {
-    pointListItem.replaceChild(editFormTemplate, eventDiv);
-    document.addEventListener('keydown', onEscButton)
-  })
-
-  editForm.hideEditFormClickHandler(() => {
-    pointListItem.replaceChild(eventDiv, editFormTemplate);
-    document.removeEventListener('keydown', onEscButton);
-  })
-
-  editForm.setFormSubmitHandler(() => {
-      pointListItem.replaceChild(eventDiv, editFormTemplate);
-      document.removeEventListener('keydown', onEscButton);
-    })
-
-  render(this._pointsListComponent, pointComponent, RenderPosition.BEFOREEND);
+  const pointPresenter = new Point(this._pointsListComponent);
+  pointPresenter.init(point)
   }
 
   _renderPoints() {
-    if (this._boardPoints.length === 0) {
-      render(this._pointsListComponent, this._emptyListComponent, RenderPosition.BEFOREEND);
-      return;
-    }
     this._boardPoints.slice().forEach((point) => this._renderPoint(point));
   }
 
   _renderEmptyList() {
-    render(siteTripBoardElement, this._emptyListComponent, RenderPosition.AFTERBEGIN);
+    render(this._pointsListComponent, this._emptyListComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderBoard() {
-  if (this._boardPoints === 0) {
+  if (this._boardPoints.length === 0) {
     this._renderEmptyList();
     return;
     }
