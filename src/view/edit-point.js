@@ -137,6 +137,7 @@ export default class PointEditForm extends Abstract {
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formClickHandler = this._formClickHandler.bind(this);
+  
   }
 
   getTemplate() {

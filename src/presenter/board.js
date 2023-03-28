@@ -9,6 +9,7 @@ import Point from "./point";
 import EmptyList from "../view/list-empty";
 import EmptyCostView from "../view/empty-cost";
 import { render,  RenderPosition } from "../utils/render";
+import { updateItem } from "../utils/common";
 
 const siteMain = document.querySelector('.trip-main');
 
@@ -23,6 +24,8 @@ export default class Board {
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
 
+    this._handlePointChange = this._handlePointChange.bind(this)
+    this._handleModeChange = this._handleModeChange.bind(this);
     this._pointPresenter = {};
   }
 
@@ -33,6 +36,17 @@ export default class Board {
     this._renderTripInfo(this._boardPoints);
     this._renderCost(boardPoints);
     this._renderBoard();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._pointPresenter)
+      .forEach((presenter) => presenter.resetView());
+  }
+
+  _handlePointChange(updatedPoint) {
+    this._boardPoints = updateItem(this._boardPoints, updatedPoint);
+    this._taskPresenter[updatedPoint.id].init(updatedPoint);
   }
 
   _renderTripInfo(points) {
@@ -64,7 +78,7 @@ export default class Board {
   }
 
   _renderPoint(point) {
-  const pointPresenter = new Point(this._pointsListComponent);
+  const pointPresenter = new Point(this._pointsListComponent, this._handlePointChange, this._handleModeChange);
   pointPresenter.init(point);
   this._pointPresenter[point.id] = pointPresenter;
   }
