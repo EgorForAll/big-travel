@@ -15,3 +15,51 @@ export const closeEditForm = (evt, parent, point, form) => {
     parent.replaceChild(point, form);
   }
 }
+
+// Функция помещает задачи без даты в конце списка,
+// возвращая нужный вес для колбэка sort
+const compareTwoDates = (dateA, dateB) => {
+  if (dateA === null || dateB === null) {
+    return null;
+  }
+  return dateA.diff(dateB);
+};
+
+const getSortWeightForEmptyValue = (valueA, valueB) => {
+  if (valueA === null) {
+    return 1;
+  }
+
+  if (valueB === null) {
+    return -1;
+  }
+
+  if (valueA === null && valueB === null) {
+    return 0;
+  }
+
+  return null;
+}
+
+export const sortByPrice = (pointA, pointB) => {
+  const sortWeightForEmptyValue = getSortWeightForEmptyValue(pointA.price, pointB.price);
+
+  if (sortWeightForEmptyValue !== null){
+    return sortWeightForEmptyValue;
+  }
+
+  return pointB.price - pointA.price;
+  }
+
+export const sortByTime = (pointA, pointB) => {
+  const durationPointA = compareTwoDates(pointA.date_to, pointA.date_from);
+  const durationPointB = compareTwoDates(pointB.date_to, pointB.date_from);
+
+  const sortWeightForEmptyValue = getSortWeightForEmptyValue(durationPointA, durationPointB);
+
+  if (sortWeightForEmptyValue !== null) {
+    return sortWeightForEmptyValue;
+  }
+
+  return durationPointB - durationPointA;
+}

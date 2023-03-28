@@ -12,7 +12,7 @@ export const generateRandomPoint = () => {
     price: getRandomInteger(0, 1500),
     date_from: getRandomDate.dateFrom,
     date_to: getRandomDate.dateTo,
-    isfavorite: Boolean(getRandomInteger(0, 1)),
+    isFavorite: Boolean(getRandomInteger(0, 1)),
     destination: {
       description: getRandomArr(DESCS),
       name: getRandomArr(NAMES),

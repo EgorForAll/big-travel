@@ -31,7 +31,13 @@ const OFFER_TITLES = [
   'Switch to comfort'
   ]
 
-  const FORM_DATE_FORMAT_ONE = 'YY/MM/DDTHH:mm';
+const FORM_DATE_FORMAT_ONE = 'YY/MM/DDTHH:mm';
+
+const SortType = {
+  DAY: 'day',
+  TIME: 'time',
+  PRICE: 'price'
+};
 
 
-export { TYPE, DESCS, NAMES, OFFER_TITLES, PNG, FORM_DATE_FORMAT_ONE }
+export { TYPE, DESCS, NAMES, OFFER_TITLES, PNG, FORM_DATE_FORMAT_ONE, SortType }

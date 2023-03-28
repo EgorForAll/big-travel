@@ -34,6 +34,7 @@ export default class Point {
     this._editPoint = new PointEditForm(point);
 
     this._pointComponent.setShowFormHanler(this._handlePointClick);
+    this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._editPoint.setFormSubmitHandler(this._handleFormSubmit);
     this._editPoint.hideEditFormClickHandler(this._handleFormClick);
 
@@ -56,7 +57,6 @@ export default class Point {
 
   destroy() {
     remove(this._pointComponent);
-    remove(this._pointEditComponent);
   }
 
   resetView() {
@@ -84,7 +84,7 @@ export default class Point {
         {},
         this._point,
         {
-          isFavorite: !this._task.isFavorite,
+          isFavorite: !this._point.isFavorite,
         },
       ),
     );

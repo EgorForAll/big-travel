@@ -1,4 +1,4 @@
-import SortTemplateView from "../view/trip-sort";
+import SortView from "../view/trip-sort";
 import PointView from "../view/point";
 import PointEditForm from "../view/edit-point";
 import TripInfoView from "../view/trip-info-template";
@@ -10,6 +10,8 @@ import EmptyList from "../view/list-empty";
 import EmptyCostView from "../view/empty-cost";
 import { render,  RenderPosition } from "../utils/render";
 import { updateItem } from "../utils/common";
+import { SortType } from "../mock/const";
+import { sortByPrice, sortByTime } from "../utils/point";
 
 const siteMain = document.querySelector('.trip-main');
 
@@ -17,25 +19,57 @@ export default class Board {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
     this._pointComponent = new PointView();
-    this._sortComponent = new SortTemplateView();
+    this._sortComponent = new SortView();
     this._pointEditComponent = new PointEditForm();
     this._emptyCostComponent = new EmptyCostView();
     this._emptyTripInfo = new EmptyTripInfo();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
 
-    this._handlePointChange = this._handlePointChange.bind(this)
+    this._handlePointChange = this._handlePointChange.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
+    this._currentSortType = SortType.DAY;
     this._pointPresenter = {};
   }
 
   init(boardPoints) {
     this._boardPoints = boardPoints.slice();
+    this._sourcedBoardPoints = boardPoints.slice();
     render(this._boardContainer, this._pointsListComponent, RenderPosition.BEFOREEND);
 
     this._renderTripInfo(this._boardPoints);
     this._renderCost(boardPoints);
     this._renderBoard();
+  }
+
+  _sortPoints(sortType) {
+
+    switch (sortType) {
+      case SortType.DAY:
+        this._boardPoints = this._sourcedBoardPoints.slice();
+        break;
+      case SortType.PRICE:
+        this._boardPoints.sort(sortByPrice);
+        break;
+      case SortType.TIME:
+        this._boardPoints.sort(sortByTime);
+        break;
+      default:
+        throw new Error('Unknown sort type');
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handleSortTypeChange(sortType) {
+      if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortPoints(sortType);
+    this._clearPointList();
+    this._renderPoints();
   }
 
   _handleModeChange() {
@@ -46,7 +80,8 @@ export default class Board {
 
   _handlePointChange(updatedPoint) {
     this._boardPoints = updateItem(this._boardPoints, updatedPoint);
-    this._taskPresenter[updatedPoint.id].init(updatedPoint);
+    this._sourcedBoardPoints = updateItem(this._sourcedBoardPoints, updatedPoint);
+    this._pointPresenter[updatedPoint.id].init(updatedPoint);
   }
 
   _renderTripInfo(points) {
@@ -71,6 +106,7 @@ export default class Board {
 
   _renderSort() {
     render(this._boardContainer, this._sortComponent, RenderPosition.AFTERBEGIN);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderPointsList() {
