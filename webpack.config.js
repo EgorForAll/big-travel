@@ -12,6 +12,6 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'public'),
     },
-    port: 9000
+    port: 8080
   },
 }
