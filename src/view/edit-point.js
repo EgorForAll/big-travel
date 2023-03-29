@@ -1,6 +1,9 @@
-import { FORM_DATE_FORMAT_ONE } from "../mock/const";
+import { FORM_DATE_FORMAT_ONE, CITIES } from "../mock/const";
 import { EMPTY_POINT } from "../mock/point";
-import Abstract from "./abstract";
+import { pickElementDependOnValue } from "../utils/point";
+import Smart from "./smart";
+import { OFFER_OPTIONS, PNG } from "../mock/const";
+import { checkPng } from "../utils/common";
 
 const createEditEventTypeTemplate = (currentTypeImage) => {
   return    `<label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -13,52 +16,52 @@ const createEditEventTypeTemplate = (currentTypeImage) => {
                 <legend class="visually-hidden">Event type</legend>
 
                 <div class="event__type-item">
-                  <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
+                  <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Taxi">
                   <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
+                  <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Bus">
                   <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
+                  <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Train">
                   <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
+                  <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Ship">
                   <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-transport-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="transport">
+                  <input id="event-type-transport-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Transport">
                   <label class="event__type-label  event__type-label--transport" for="event-type-transport-1">Transport</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
+                  <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Drive">
                   <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked>
+                  <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Flight">
                   <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
+                  <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Checkin">
                   <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
+                  <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Sightseeng">
                   <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
+                  <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Restaurant">
                   <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
                 </div>
               </fieldset>
@@ -66,17 +69,17 @@ const createEditEventTypeTemplate = (currentTypeImage) => {
             `;
 }
 
-const createEventDestinationTemplate = (destination, type, id) => {
-  return `<label class="event__label  event__type-output" for="event-destination-${id}">
-            ${type}
-          </label>
-          <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value="" list="destination-list-${id}">
+const createDestinationOptionsTemplate = (item) => {
+  return `<option value=${item}></option>`
+}
+
+const createEventDestinationTemplate = (type, city, id) => {
+
+  return `
+          <label class="event__label  event__type-output" for="event-destination-${id}">${type}</label>
+          <input class="event__input  event__input--destination" multiple id="event-destination-${id}" type="text" name="event-destination" value=${city} list="destination-list-${id}">
           <datalist id="destination-list-${id}">
-            <option value="Moscow">Moscow</option>
-            <option value="Paris">Paris</option>
-            <option value="Boston">Boston</option>
-            <option value="Pekin">Pekin</option>
-            <option value="London">London</option>
+            ${CITIES.map((item) => createDestinationOptionsTemplate(item)).join('')}
           </datalist>`;
 }
 
@@ -110,26 +113,42 @@ const createOfferSelectorTemplate = (item) => {
   `
 }
 
-const createEventDescriptionTemplate = (description, photos) => {
-  return ` <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${description}</p>
-            <div class="event__photos-container">
-            <div class="event__photos-tape">
-            ${photos.map((item) => {
-              return `<img class="event__photo" src=${item} alt="Event photo"/>`;
-            }).join('')}
-            </div>
-          </div>`;
+const createEventDescriptionTemplate = (destination) => {
+  return destination.description.length > 0 || destination.pictures.length > 0 ? 
+  ` <section class="event__section  event__section--destination">
+      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+      <p class="event__destination-description">${destination.description}</p>
+        <div class="event__photos-container">
+        <div class="event__photos-tape">
+        ${destination.pictures.map((item) => {
+          return `<img class="event__photo" src=${item} alt="Event photo"/>`;
+        }).join('')}
+        </div>
+      </div>
+    </section> 
+` : ' ';
+}
+
+const createOffersEditTemplate = (offers) => {
+  return offers.length > 0 ? `
+    <section class="event__section  event__section--offers">
+      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+
+      <div class="event__available-offers">                   
+        ${offers.map((element) => createOfferSelectorTemplate(element)).join('')}
+      </div>
+    </section>` : '';
+
 }
 
 const createEditPointTemplate = (point = EMPTY_POINT) => {
 
   const eventTypeImageField = createEditEventTypeTemplate(point.image);
-  const eventDestinationField = createEventDestinationTemplate(point.destination.name, point.type, point.id);
+  const eventDestinationField = createEventDestinationTemplate(point.type, point.destination.name, point.id);
   const eventDateField = createEventDateTemplate(point.date_from, point.date_to);
   const eventPriceField = createEventPriceTemplate(point.price);
-  const eventDescriptionsField = createEventDescriptionTemplate(point.destination.description, point.destination.pictures);
- 
+  const eventDescriptionsField = createEventDescriptionTemplate(point.destination);
+  const offerSelectorsField = createOffersEditTemplate(point.offer);
 
   return      `<form class="event event--edit" action="#" method="post" id="form">
                 <header class="event__header">
@@ -156,33 +175,41 @@ const createEditPointTemplate = (point = EMPTY_POINT) => {
                   </button>
                 </header>
                 <section class="event__details">
-                  <section class="event__section  event__section--offers">
-                    <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
-                    <div class="event__available-offers">                   
-                      ${point.offer.map((element) => createOfferSelectorTemplate(element)).join('')}
-                    </div>
-                  </section>
-
-                  <section class="event__section  event__section--destination">
-                    ${eventDescriptionsField}
-                  </section>
+                  ${offerSelectorsField}
+                  ${eventDescriptionsField}
                 </section>
               </form>`;
 }
 
-export default class PointEditForm extends Abstract {
-   constructor(point = EMPTY_POINT) {
+export default class PointEditForm extends Smart {
+   constructor(pointData = EMPTY_POINT) {
     super();
-    this._point = point;
+    this._pointState = PointEditForm.parsePointDataToState(pointData)
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formClickHandler = this._formClickHandler.bind(this);
+    this._onPointTypeChange = this._onPointTypeChange.bind(this);
+    this._onPointInput = this._onPointInput.bind(this);
+    this._setInnerListeners();
   
   }
 
+  static parsePointDataToState(pointData) {
+    return Object.assign(
+      {},
+      pointData
+    )
+  }
+
+  static parseStateToPointData(state) {
+    return Object.assign(
+      {},
+      state
+    )
+  }
+
   getTemplate() {
-    return createEditPointTemplate(this._point);
+    return createEditPointTemplate(this._pointState);
   }
 
   _formSubmitHandler(evt) {
@@ -190,8 +217,53 @@ export default class PointEditForm extends Abstract {
     this._callback.formSubmit();
   }
 
-  _formClickHandler(evt) {
+  _formClickHandler() {
     this._callback.clickHide();
+  }
+
+  _onPointTypeChange(evt) {
+    evt.preventDefault();
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+    this.updateData({
+      type: evt.target.value,
+      offer: pickElementDependOnValue(evt.target.value, OFFER_OPTIONS),
+      image: checkPng((evt.target.value).toLowerCase(), PNG)
+    })
+  }
+
+  _onPointInput(evt) {
+    evt.preventDefault()
+    if (!CITIES.includes(evt.target.value)) {
+      return;
+    }
+
+    this.updateData({
+      description: getRandomArr(DESCS),
+      name: evt.target.value,
+      pictures: [
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
+        ]
+    })
+  }
+
+  _setInnerListeners() {
+    this.getElement().querySelector('.event__input--destination').addEventListener('change', this._onPointInput);
+    this.getElement().querySelector('.event__type-group').addEventListener('change', this._onPointTypeChange);
+  }
+
+  restoreListenners() {
+    this._setInnerListeners();
+    this.setFormSubmitHandler();
+    this.hideEditFormClickHandler();
+  }
+
+  resetInput(pointData) {
+    this.updateData(PointEditForm.parsePointDataToState(pointData))
   }
 
   setFormSubmitHandler(callback) {

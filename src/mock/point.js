@@ -1,4 +1,4 @@
-import { TYPE, NAMES, DESCS, PNG, OFFER_OPTIONS } from "./const";
+import { TYPE, CITIES, DESCS, PNG, OFFER_OPTIONS } from "./const";
 import { getRandomInteger, getRandomArr, generateDate, checkPng } from "../utils/common";
 import dayjs from "dayjs";
 import { pickElementDependOnValue } from "../utils/point";
@@ -16,7 +16,7 @@ export const generateRandomPoint = () => {
     isFavorite: Boolean(getRandomInteger(0, 1)),
     destination: {
       description: getRandomArr(DESCS),
-      name: getRandomArr(NAMES),
+      name: getRandomArr(CITIES),
       pictures: [
             `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
             `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
@@ -50,7 +50,7 @@ export const generateRandomPoint = () => {
     is_favorite: false,
     destination: {
       description: getRandomArr(DESCS),
-      name: getRandomArr(NAMES),
+      name: getRandomArr(CITIES),
       pictures: []
       },
     get differenceTime() {

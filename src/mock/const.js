@@ -1,7 +1,7 @@
 const TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Transport', 'Drive', 'Flight', 'Checkin', 'Sightseeng', 'Restaurant'];
 
 const PNG = [
-  'img/icons/check-in.png',
+  'img/icons/checkin.png',
   'img/icons/bus.png',
   'img/icons/drive.png',
   'img/icons/flight.png',
@@ -20,16 +20,7 @@ const DESCS = [
     'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus'
   ];
 
-const NAMES = ['Moscow', 'Paris', 'Boston', 'Pekin', 'London'];
-
-const OFFER_TITLES = [
-  'Upgrade to a business class',
-  'Choose the radio station', 
-  'Rent a car',
-  'Order Uber',
-  'Add luggage',
-  'Switch to comfort'
-  ]
+const CITIES = ['Moscow', 'Paris', 'Boston', 'Pekin', 'London'];
 
 const FORM_DATE_FORMAT_ONE = 'YY/MM/DDTHH:mm';
 
@@ -158,4 +149,4 @@ const OFFER_OPTIONS = {
 }
 
 
-export { TYPE, DESCS, NAMES, OFFER_TITLES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS}
+export { TYPE, DESCS, CITIES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS}
