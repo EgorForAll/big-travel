@@ -74,6 +74,7 @@ export default class Point {
   }
 
   _replaceEditFormToPoint() {
+    this._editPointComponent.resetInput(this._point);
     replace(this._pointComponent, this._editPointComponent);
     document.removeEventListener('keydown', this._onEscDownHandler);
     this._mode = Mode.DEFAULT;
@@ -94,6 +95,7 @@ export default class Point {
   _onEscDownHandler(evt) {
    evt.preventDefault();
     if (evt.key === 'Escape' || evt.key === 'Esc') {
+    this._editPointComponent.reset(this._point);
     this._replaceEditFormToPoint();
     }
   }
@@ -102,8 +104,9 @@ export default class Point {
     this._replacePointToEditForm();
   }
 
-  _handleFormSubmit(){
+  _handleFormSubmit(point){
     this._replaceEditFormToPoint();
+    this._changeData(point);
   }
 
   _handleFormClick() {

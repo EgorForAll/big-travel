@@ -4,6 +4,8 @@ import { pickElementDependOnValue } from "../utils/point";
 import Smart from "./smart";
 import { OFFER_OPTIONS, PNG } from "../mock/const";
 import { checkPng } from "../utils/common";
+import flatpickr from 'flatpickr';
+
 
 const createEditEventTypeTemplate = (currentTypeImage) => {
   return    `<label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -69,17 +71,17 @@ const createEditEventTypeTemplate = (currentTypeImage) => {
             `;
 }
 
-const createDestinationOptionsTemplate = (item) => {
-  return `<option value=${item}></option>`
+const createDestinationOptionsTemplate = (cities) => {
+  return cities.map((item) => `<option value=${item}></option>`).join('');
 }
 
 const createEventDestinationTemplate = (type, city, id) => {
 
   return `
           <label class="event__label  event__type-output" for="event-destination-${id}">${type}</label>
-          <input class="event__input  event__input--destination" multiple id="event-destination-${id}" type="text" name="event-destination" value=${city} list="destination-list-${id}">
+          <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value=${city} list="destination-list-${id}">
           <datalist id="destination-list-${id}">
-            ${CITIES.map((item) => createDestinationOptionsTemplate(item)).join('')}
+            ${createDestinationOptionsTemplate(CITIES)}
           </datalist>`;
 }
 
@@ -184,6 +186,7 @@ const createEditPointTemplate = (point = EMPTY_POINT) => {
 export default class PointEditForm extends Smart {
    constructor(pointData = EMPTY_POINT) {
     super();
+    this._datepicker = null;
     this._pointState = PointEditForm.parsePointDataToState(pointData)
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
@@ -214,7 +217,7 @@ export default class PointEditForm extends Smart {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit();
+    this._callback.formSubmit(PointEditForm.parseStateToPointData(this._pointState));
   }
 
   _formClickHandler() {
@@ -231,6 +234,7 @@ export default class PointEditForm extends Smart {
       offer: pickElementDependOnValue(evt.target.value, OFFER_OPTIONS),
       image: checkPng((evt.target.value).toLowerCase(), PNG)
     })
+    console.log(this)
   }
 
   _onPointInput(evt) {
@@ -256,10 +260,32 @@ export default class PointEditForm extends Smart {
     this.getElement().querySelector('.event__type-group').addEventListener('change', this._onPointTypeChange);
   }
 
+  _setDatepicker() {
+    if (this._datepicker) {
+      this._datepicker.destroy();
+      this._datepicker = null;
+    }
+
+    this._datepicker = flatpickr(
+      this.getElement().querySelector('.card__date'),
+      {
+        dateFormat: 'j F',
+        defaultDate: this._pointState.date_from,
+        onChange: this._dueDateChangeHandler
+      },
+    );
+    }
+
   restoreListenners() {
     this._setInnerListeners();
-    this.setFormSubmitHandler();
-    this.hideEditFormClickHandler();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.hideEditFormClickHandler(this._callback.clickHide);
+  }
+
+  reset(pointData) {
+    this.updateData(
+      PointEditForm.parseStateToPointData(pointData),
+    );
   }
 
   resetInput(pointData) {

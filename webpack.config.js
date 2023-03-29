@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-   mode: 'development',
+  mode: 'development',
   entry: './src/main.js',
   output: {
     filename: 'bundle.js',
@@ -14,4 +14,12 @@ module.exports = {
     },
     port: 8080
   },
+   module: {
+    rules: [
+        {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader']
+        }
+    ]
+  }
 }
