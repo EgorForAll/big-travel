@@ -1,4 +1,4 @@
-const TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Transport', 'Drive', 'Flight', 'Check-in', 'Sightseeng', 'Restaurant'];
+const TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Transport', 'Drive', 'Flight', 'Checkin', 'Sightseeng', 'Restaurant'];
 
 const PNG = [
   'img/icons/check-in.png',
@@ -39,5 +39,123 @@ const SortType = {
   PRICE: 'price'
 };
 
+const OFFER_OPTIONS = {
+  Taxi: [
+    { title: 'Rent a car',
+      price: 100
+    }, 
+    {
+      title: 'Order a Buisness Class',
+      price: 200
+    }
+      ],
+  Bus: [
+    {
+      title: 'Order drinks',
+      price: 10
+    }, 
+    {
+      title: 'Take a seat close to window',
+      price: 20  
+    }
+    ],
+  Train: [
+    {
+      title:'Take a lower bed',
+      price: 20
+    }, 
+    {
+      title: 'Order a breakfast',
+      price: 15
+    }, 
+    {
+      title: 'Take a shower',
+      price: 5
+    }
+    ],
+  Ship: [
+    {
+      title: 'Take a lux room',
+      price: 300
+    }, 
+    {
+      title: 'Order a breakfast',
+      price: 20
+    }, 
+    {
+      title: 'Take a spa',
+      price: 50
+    }
+    ],
+  Transport: [
+    {
+      title: 'Order Uber',
+      price: 100
+    }, 
+    {
+      title: 'Switch to comfort',
+      price: 70
+    }, 
+    {
+      title: 'Choose the radio station',
+      price: 5
+    }
+    ],
+  Drive: [
+    {
+      title: 'Take a fast paid road',
+      price: 80
+    }, 
+    {
+      title: 'Switch to comfort',
+      price: 60
+    }, 
+    {
+      title: 'Take a buisness class',
+      price: 150  
+    }
+    ],
+  Flight: [
+    {
+      title: 'Order a breakfast',
+      price: 15  
+    }, 
+    {
+      title: 'Take a buisness class',
+      price: 100  
+    }
+    ],
+  Checkin: [
+    {
+      title: 'Take a lux room',
+      price: 140
+    }, 
+    {
+      title: 'Order a breakfast',
+      price: 30
+    }, 
+    {
+      title: 'Order a dinner',
+      price: 40
+    }
+    ],
+  Sightseeng: [
+    {
+      title: 'Order uber',
+      price: 90
+    }
+    ],
+  Restaurant: [
+    {
+      title: 'Take a wine',
+      price: 20  
+    }, 
+    {
+      title: 'Order bigtesty',
+      price: 40
+    }
+    ]
+}
 
-export { TYPE, DESCS, NAMES, OFFER_TITLES, PNG, FORM_DATE_FORMAT_ONE, SortType }
+
+export { TYPE, DESCS, NAMES, OFFER_TITLES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS}

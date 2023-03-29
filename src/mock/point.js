@@ -1,6 +1,7 @@
-import { TYPE, NAMES, DESCS, OFFER_TITLES, PNG } from "./const";
+import { TYPE, NAMES, DESCS, PNG, OFFER_OPTIONS } from "./const";
 import { getRandomInteger, getRandomArr, generateDate, checkPng } from "../utils/common";
 import dayjs from "dayjs";
+import { pickElementDependOnValue } from "../utils/point";
 import {nanoid} from 'nanoid';
 
 export const generateRandomPoint = () => {
@@ -23,22 +24,8 @@ export const generateRandomPoint = () => {
             `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
         ]
       },
-    offer: {
-      type: getRandomArr(TYPE),
-       options: [
-        {
-          title: 'Upgrade to a business class',
-          price: 100
-        },
-        {
-          title: 'Add luggage',
-          price: 50
-        },
-        {
-          title: 'Rent a car',
-          price: 150
-        }
-      ]
+    get offer() {
+      return pickElementDependOnValue(this.type, OFFER_OPTIONS)
     },
     get image() {
       return checkPng(this.type.toLowerCase(), PNG)
@@ -77,19 +64,6 @@ export const generateRandomPoint = () => {
     },
     offer: {
       type: getRandomArr(TYPE),
-       options: [
-        {
-          title: 'Upgrade to a business class',
-          price: 100
-        },
-        {
-          title: 'Add luggage',
-          price: 50
-        },
-        {
-          title: 'Rent a car',
-          price: 150
-        }
-      ]
+      options: ['Switch to comfort', 'Order Uber']
     }
   }

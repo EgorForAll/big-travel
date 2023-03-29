@@ -1,6 +1,13 @@
-import { createOfferTemplate } from "./offer";
 import { EMPTY_POINT } from "../mock/point";
 import Abstract from "./abstract";
+
+const createOfferTemplate = (element) => {
+  return `<li class="event__offer">
+                    <span class="event__offer-title">${element.title}</span>
+                    &plus;&euro;&nbsp;
+                    <span class="event__offer-price">${element.price}</span>
+                  </li>`
+}
 
 const createPointTemplate = (point = EMPTY_POINT) => {
 
@@ -24,7 +31,7 @@ const createPointTemplate = (point = EMPTY_POINT) => {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${point.offer.options.map((item) => createOfferTemplate(item)).join('')}
+                  ${point.offer.map((item) => createOfferTemplate(item)).join('')}
                 </ul>
                 <button class="event__favorite-btn ${point.isfavorite ? 'event__favorite-btn--active' : null}" type="button">
                   <span class="visually-hidden">Add to favorite</span>

@@ -66,15 +66,17 @@ const createEditEventTypeTemplate = (currentTypeImage) => {
             `;
 }
 
-const createEventDestinationTemplate = (destination, type) => {
-  return `<label class="event__label  event__type-output" for="event-destination-1">
+const createEventDestinationTemplate = (destination, type, id) => {
+  return `<label class="event__label  event__type-output" for="event-destination-${id}">
             ${type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${destination} list="destination-list-1">
-          <datalist id="destination-list-1">
-            <option value="Amsterdam"></option>
-            <option value="Geneva"></option>
-            <option value="Chamonix"></option>
+          <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value="" list="destination-list-${id}">
+          <datalist id="destination-list-${id}">
+            <option value="Moscow">Moscow</option>
+            <option value="Paris">Paris</option>
+            <option value="Boston">Boston</option>
+            <option value="Pekin">Pekin</option>
+            <option value="London">London</option>
           </datalist>`;
 }
 
@@ -123,7 +125,7 @@ const createEventDescriptionTemplate = (description, photos) => {
 const createEditPointTemplate = (point = EMPTY_POINT) => {
 
   const eventTypeImageField = createEditEventTypeTemplate(point.image);
-  const eventDestinationField = createEventDestinationTemplate(point.destination.name, point.type);
+  const eventDestinationField = createEventDestinationTemplate(point.destination.name, point.type, point.id);
   const eventDateField = createEventDateTemplate(point.date_from, point.date_to);
   const eventPriceField = createEventPriceTemplate(point.price);
   const eventDescriptionsField = createEventDescriptionTemplate(point.destination.description, point.destination.pictures);
@@ -158,7 +160,7 @@ const createEditPointTemplate = (point = EMPTY_POINT) => {
                     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
                     <div class="event__available-offers">                   
-                      ${point.offer.options.map((element) => createOfferSelectorTemplate(element)).join('')}
+                      ${point.offer.map((element) => createOfferSelectorTemplate(element)).join('')}
                     </div>
                   </section>
 

@@ -63,3 +63,6 @@ export const sortByTime = (pointA, pointB) => {
 
   return durationPointB - durationPointA;
 }
+
+export const pickElementDependOnValue = (value, elementValueDependency) => 
+  elementValueDependency[Object.keys(elementValueDependency).find((type) => type === value)];
