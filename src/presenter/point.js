@@ -91,7 +91,7 @@ export default class Point {
         {},
         this._point,
         {
-          isFavorite: !this._point.isFavorite,
+          is_favorite: !this._point.is_favorite,
         },
       ),
     );

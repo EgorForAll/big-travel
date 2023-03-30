@@ -8,7 +8,7 @@ import PointsListView from "../view/list";
 import Point from "./point";
 import EmptyList from "../view/list-empty";
 import EmptyCostView from "../view/empty-cost";
-import { render,  RenderPosition } from "../utils/render";
+import { render,  RenderPosition, remove } from "../utils/render";
 import { UserAction, UpdateType } from "../mock/const";
 import { SortType } from "../mock/const";
 import { sortByPrice, sortByTime } from "../utils/point";
@@ -19,8 +19,8 @@ export default class Board {
   constructor(boardContainer, pointModel) {
     this._boardContainer = boardContainer;
     this._pointModel = pointModel
+    this._sortComponent = null;
     this._pointComponent = new PointView();
-    this._sortComponent = new SortView();
     this._pointEditComponent = new PointEditForm();
     this._emptyCostComponent = new EmptyCostView();
     this._emptyTripInfo = new EmptyTripInfo();
@@ -62,8 +62,8 @@ export default class Board {
     }
 
     this._currentSortType = sortType;
-    this._clearPointList();
-    this._renderPoints();
+    this._clearBoard();
+    this._renderBoard();
   }
 
   _handleModeChange() {
@@ -77,6 +77,7 @@ export default class Board {
   }
 
    _handleViewAction(actionType, updateType, update) {
+    console.log(this._getPoints())
     console.log(actionType, updateType, update);
       switch (actionType) {
       case UserAction.UPDATE_TASK:
@@ -104,9 +105,13 @@ export default class Board {
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)
+        this._clearBoard();
+        this._renderBoard();
         break;
       case UpdateType.MAJOR:
         // - обновить всю доску (например, при переключении фильтра)
+        this._clearBoard({resetSortType: true});
+        this._renderBoard();
         break;
     }
   }
@@ -132,6 +137,11 @@ export default class Board {
   }
 
   _renderSort() {
+    if (this._sortComponent !== null) {
+    this._sortComponent = null;
+    }
+
+    this._sortComponent = new SortView(this._currentSortType);
     render(this._boardContainer, this._sortComponent, RenderPosition.AFTERBEGIN);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
@@ -169,5 +179,20 @@ export default class Board {
       .values(this._pointPresenter)
       .forEach((presenter) => presenter.destroy());
     this._pointPresenter = {};
+  }
+
+  _clearBoard({resetSortType = false} = {}) {
+
+    Object
+      .values(this._pointPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._pointPresenter = {};
+
+    remove(this._sortComponent);
+    remove(this._emptyListComponent);
+
+    if (resetSortType) {
+      this._currentSortType = SortType.DAY;
+    }
   }
 }
