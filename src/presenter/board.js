@@ -16,8 +16,9 @@ import { sortByPrice, sortByTime } from "../utils/point";
 const siteMain = document.querySelector('.trip-main');
 
 export default class Board {
-  constructor(boardContainer) {
+  constructor(boardContainer, pointModel) {
     this._boardContainer = boardContainer;
+    this._pointModel = pointModel
     this._pointComponent = new PointView();
     this._sortComponent = new SortView();
     this._pointEditComponent = new PointEditForm();
@@ -31,6 +32,10 @@ export default class Board {
     this._handleModeChange = this._handleModeChange.bind(this);
     this._currentSortType = SortType.DAY;
     this._pointPresenter = {};
+  }
+
+  _getPoints() {
+    return this._pointModel.getPoints();
   }
 
   init(boardPoints) {
