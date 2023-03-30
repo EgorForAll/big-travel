@@ -1,6 +1,7 @@
 import PointView from "../view/point";
 import PointEditForm from "../view/edit-point";
 import { RenderPosition, render, replace, remove } from "../utils/render";
+import { UpdateType, UserAction } from "../mock/const";
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -84,6 +85,8 @@ export default class Point {
 
   _handleFavoriteClick() {
     this._changeData(
+      UserAction.UPDATE_TASK,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._point,
@@ -107,8 +110,12 @@ export default class Point {
   }
 
   _handleFormSubmit(point){
+    this._changeData(
+      UserAction.UPDATE_TASK,
+      UpdateType.MINOR,
+      point,
+    );
     this._replaceEditFormToPoint();
-    this._changeData(point);
   }
 
   _handleFormClick() {

@@ -9,7 +9,7 @@ import Point from "./point";
 import EmptyList from "../view/list-empty";
 import EmptyCostView from "../view/empty-cost";
 import { render,  RenderPosition } from "../utils/render";
-import { updateItem } from "../utils/common";
+import { UserAction, UpdateType } from "../mock/const";
 import { SortType } from "../mock/const";
 import { sortByPrice, sortByTime } from "../utils/point";
 
@@ -30,41 +30,30 @@ export default class Board {
     this._handlePointChange = this._handlePointChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
+    this._handleViewAction = this._handleViewAction.bind(this);
+    this._handleModelEvent = this._handleModelEvent.bind(this);
     this._currentSortType = SortType.DAY;
     this._pointPresenter = {};
   }
 
   _getPoints() {
+
+    switch (this._currentSortType) {
+      case SortType.TIME:
+        return this._pointModel.getPoints().slice().sort(sortByTime);
+      case SortType.PRICE:
+        return this._pointModel.getPoints().slice().sort(sortByPrice);
+    }
+
     return this._pointModel.getPoints();
   }
 
-  init(boardPoints) {
-    this._boardPoints = boardPoints.slice();
-    this._sourcedBoardPoints = boardPoints.slice();
+  init() {
     render(this._boardContainer, this._pointsListComponent, RenderPosition.BEFOREEND);
 
-    this._renderTripInfo(this._boardPoints);
-    this._renderCost(boardPoints);
+    this._renderTripInfo(this._getPoints());
+    this._renderCost(this._getPoints());
     this._renderBoard();
-  }
-
-  _sortPoints(sortType) {
-
-    switch (sortType) {
-      case SortType.DAY:
-        this._boardPoints = this._sourcedBoardPoints.slice();
-        break;
-      case SortType.PRICE:
-        this._boardPoints.sort(sortByPrice);
-        break;
-      case SortType.TIME:
-        this._boardPoints.sort(sortByTime);
-        break;
-      default:
-        throw new Error('Unknown sort type');
-    }
-
-    this._currentSortType = sortType;
   }
 
   _handleSortTypeChange(sortType) {
@@ -72,7 +61,7 @@ export default class Board {
       return;
     }
 
-    this._sortPoints(sortType);
+    this._currentSortType = sortType;
     this._clearPointList();
     this._renderPoints();
   }
@@ -84,23 +73,56 @@ export default class Board {
   }
 
   _handlePointChange(updatedPoint) {
-    this._boardPoints = updateItem(this._boardPoints, updatedPoint);
-    this._sourcedBoardPoints = updateItem(this._sourcedBoardPoints, updatedPoint);
     this._pointPresenter[updatedPoint.id].init(updatedPoint);
   }
 
-  _renderTripInfo(points) {
-    if (this._boardPoints.length === 0) {
+   _handleViewAction(actionType, updateType, update) {
+    console.log(actionType, updateType, update);
+      switch (actionType) {
+      case UserAction.UPDATE_TASK:
+        this._pointModel.updateTask(updateType, update);
+        break;
+      case UserAction.ADD_TASK:
+        this._pointModel.addTask(updateType, update);
+        break;
+      case UserAction.DELETE_TASK:
+        this._pointModel.deleteTask(updateType, update);
+        break;
+    }
+  }
+
+  _handleModelEvent(updateType, data) {
+    console.log(updateType, data);
+    // В зависимости от типа изменений решаем, что делать:
+    // - обновить часть списка (например, когда поменялось описание)
+    // - обновить список (например, когда задача ушла в архив)
+    // - обновить всю доску (например, при переключении фильтра)
+        switch (updateType) {
+      case UpdateType.PATCH:
+        // - обновить часть списка (например, когда поменялось описание)
+        this._taskPresenter[data.id].init(data);
+        break;
+      case UpdateType.MINOR:
+        // - обновить список (например, когда задача ушла в архив)
+        break;
+      case UpdateType.MAJOR:
+        // - обновить всю доску (например, при переключении фильтра)
+        break;
+    }
+  }
+
+  _renderTripInfo() {
+    if (this._getPoints().length === 0) {
       render(siteMain, this._emptyTripInfo, RenderPosition.AFTERBEGIN);
       return;
     }
 
-    this._tripInfoComponent = new TripInfoView(points);
+    this._tripInfoComponent = new TripInfoView(this._getPoints());
     render(siteMain, this._tripInfoComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderCost(points) {
-    if (this._boardPoints.length === 0) {
+    if (this._getPoints().length === 0) {
       render(siteMain, this._emptyCostComponent, RenderPosition.AFTERBEGIN);
       return;
     }
@@ -119,13 +141,13 @@ export default class Board {
   }
 
   _renderPoint(point) {
-  const pointPresenter = new Point(this._pointsListComponent, this._handlePointChange, this._handleModeChange);
+  const pointPresenter = new Point(this._pointsListComponent, this._handleViewAction, this._handleModeChange);
   pointPresenter.init(point);
   this._pointPresenter[point.id] = pointPresenter;
   }
 
   _renderPoints() {
-    this._boardPoints.slice().forEach((point) => this._renderPoint(point));
+    this._getPoints().forEach((point) => this._renderPoint(point));
   }
 
   _renderEmptyList() {
@@ -133,7 +155,7 @@ export default class Board {
   }
 
   _renderBoard() {
-  if (this._boardPoints.length === 0) {
+  if (this._getPoints().length === 0) {
     this._renderEmptyList();
     return;
     }

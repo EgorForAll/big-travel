@@ -1,5 +1,17 @@
 const TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Transport', 'Drive', 'Flight', 'Checkin', 'Sightseeng', 'Restaurant'];
 
+const UserAction = {
+  UPDATE_TASK: 'UPDATE_TASK',
+  ADD_TASK: 'ADD_TASK',
+  DELETE_TASK: 'DELETE_TASK',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
 const PNG = [
   'img/icons/checkin.png',
   'img/icons/bus.png',
@@ -149,4 +161,4 @@ const OFFER_OPTIONS = {
 }
 
 
-export { TYPE, DESCS, CITIES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS}
+export { TYPE, DESCS, CITIES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS, UserAction, UpdateType}
