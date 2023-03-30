@@ -1,5 +1,6 @@
 import { EMPTY_POINT } from "../mock/point";
 import Abstract from "./abstract";
+import dayjs from "dayjs";
 
 const createOfferTemplate = (element) => {
   return `<li class="event__offer">
@@ -13,16 +14,16 @@ const createPointTemplate = (point = EMPTY_POINT) => {
 
   return    `<li class="trip-events__item">
               <div class="event">
-                <time class="event__date" datetime=${point.date_from.format('YYYY-MM-DD')}>${point.date_from.format("MMM D")}</time>
+                <time class="event__date" datetime=${dayjs(point.date_from).format('YYYY-MM-DD')}>${dayjs(point.date_from).format("MMM D")}</time>
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src=${point.image} alt="Event type icon">
                 </div>
                 <h3 class="event__title">${point.type} ${point.destination.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime=${point.date_from.format('YYYY-MM-DDTHH:mm')}>${point.date_from.format('HH:mm')}</time>
+                    <time class="event__start-time" datetime=${dayjs(point.date_from).format('YYYY-MM-DDTHH:mm')}>${dayjs(point.date_from).format('HH:mm')}</time>
                     &mdash;
-                    <time class="event__end-time" datetime=${point.date_to.format('YYYY-MM-DDTHH:mm')}>${point.date_to.format('HH:mm')}</time>
+                    <time class="event__end-time" datetime=${dayjs(point.date_to).format('YYYY-MM-DDTHH:mm')}>${dayjs(point.date_to).format('HH:mm')}</time>
                   </p>
                   <p class="event__duration">${point.differenceTime}</p>
                 </div>

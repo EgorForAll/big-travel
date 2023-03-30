@@ -1,11 +1,11 @@
 import { FORM_DATE_FORMAT_ONE, CITIES } from "../mock/const";
 import { EMPTY_POINT } from "../mock/point";
-import { pickElementDependOnValue } from "../utils/point";
+import { pickElementDependOnValue, compareTwoDates } from "../utils/point";
 import Smart from "./smart";
 import { OFFER_OPTIONS, PNG } from "../mock/const";
 import { checkPng } from "../utils/common";
 import flatpickr from 'flatpickr';
-
+import dayjs from "dayjs";
 
 const createEditEventTypeTemplate = (currentTypeImage) => {
   return    `<label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -87,10 +87,10 @@ const createEventDestinationTemplate = (type, city, id) => {
 
 const createEventDateTemplate = (dateFrom, dateTo) => {
   return `<label class="visually-hidden"          for="event-start-time-1">From</label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value=${dateFrom.format(FORM_DATE_FORMAT_ONE)}>
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value=${dayjs(dateFrom).format(FORM_DATE_FORMAT_ONE)}>
           &mdash;
           <label class="visually-hidden" for="event-end-time-1">To</label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value=${dateTo.format(FORM_DATE_FORMAT_ONE)}>`;
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value=${dayjs(dateTo).format(FORM_DATE_FORMAT_ONE)}>`;
 }
 
 const createEventPriceTemplate = (price) => {
@@ -186,13 +186,19 @@ const createEditPointTemplate = (point = EMPTY_POINT) => {
 export default class PointEditForm extends Smart {
    constructor(pointData = EMPTY_POINT) {
     super();
-    this._datepicker = null;
+    this._pickerStartDate = null;
+    this._pickerEndDate = null;
     this._pointState = PointEditForm.parsePointDataToState(pointData)
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formClickHandler = this._formClickHandler.bind(this);
     this._onPointTypeChange = this._onPointTypeChange.bind(this);
     this._onPointInput = this._onPointInput.bind(this);
+    this._onDateFromCange = this._onDateFromCange.bind(this);
+    this._onDateToCange = this._onDateToCange.bind(this);
+
+    this._setDatePicker(this._pickerStartDate);
+    this._setDatePicker(this._pickerEndDate);
     this._setInnerListeners();
   
   }
@@ -234,7 +240,6 @@ export default class PointEditForm extends Smart {
       offer: pickElementDependOnValue(evt.target.value, OFFER_OPTIONS),
       image: checkPng((evt.target.value).toLowerCase(), PNG)
     })
-    console.log(this)
   }
 
   _onPointInput(evt) {
@@ -260,26 +265,55 @@ export default class PointEditForm extends Smart {
     this.getElement().querySelector('.event__type-group').addEventListener('change', this._onPointTypeChange);
   }
 
-  _setDatepicker() {
-    if (this._datepicker) {
-      this._datepicker.destroy();
-      this._datepicker = null;
+  _setDatePicker(datePicker) {
+    if (datePicker) {
+      datePicker.destroy();
+      datePicker = null;
     }
 
-    this._datepicker = flatpickr(
-      this.getElement().querySelector('.card__date'),
+    datePicker = flatpickr(
+      this.getElement().querySelector('#event-start-time-1'),
       {
-        dateFormat: 'j F',
+        dateFormat: 'd/m/y H:i',
         defaultDate: this._pointState.date_from,
-        onChange: this._dueDateChangeHandler
+        onChange: this._onDateFromCange
+      },
+    );
+
+    datePicker = flatpickr(
+      this.getElement().querySelector('#event-end-time-1'),
+      {
+        dateFormat: 'd/m/y H:i',
+        defaultDate: this._pointState.date_to,
+        onChange: this._onDateToCange
       },
     );
     }
+
+  _onDateFromCange(userInput) {
+    if(compareTwoDates(this._pointState.date_to, dayjs(userInput)) < 0) {
+      this.updateData({
+        date_from: userInput,
+        date_to: userInput
+        });
+        return;
+    }
+  }
+
+  _onDateToCange(userInput) {
+    if(compareTwoDates(dayjs(userInput), this._pointState.date_from) < 0) {
+      this.updateData({
+        date_to: userInput
+    })
+    }
+  }
 
   restoreListenners() {
     this._setInnerListeners();
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.hideEditFormClickHandler(this._callback.clickHide);
+    this._setDatePicker(this._pickerStartDate);
+    this._setDatePicker(this._pickerEndDate);
   }
 
   reset(pointData) {

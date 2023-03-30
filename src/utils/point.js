@@ -18,11 +18,11 @@ export const closeEditForm = (evt, parent, point, form) => {
 
 // Функция помещает задачи без даты в конце списка,
 // возвращая нужный вес для колбэка sort
-const compareTwoDates = (dateA, dateB) => {
+export const compareTwoDates = (dateA, dateB) => {
   if (dateA === null || dateB === null) {
     return null;
   }
-  return dateA.diff(dateB);
+  return dayjs(dateA).diff(dateB);
 };
 
 const getSortWeightForEmptyValue = (valueA, valueB) => {
