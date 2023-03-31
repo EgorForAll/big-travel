@@ -194,6 +194,7 @@ export default class PointEditForm extends Smart {
     this._formClickHandler = this._formClickHandler.bind(this);
     this._onPointTypeChange = this._onPointTypeChange.bind(this);
     this._onPointInput = this._onPointInput.bind(this);
+    this._onPointPriceInput = this._onPointPriceInput.bind(this);
     this._onDateFromCange = this._onDateFromCange.bind(this);
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._onDateToCange = this._onDateToCange.bind(this);
@@ -270,9 +271,21 @@ export default class PointEditForm extends Smart {
     })
   }
 
+  _onPointPriceInput(evt) {
+    evt.preventDefault()
+    if (evt.target.value < 0) {
+      return
+    }
+
+    this.updateData({
+      price: evt.target.value
+    })
+  }
+
   _setInnerListeners() {
     this.getElement().querySelector('.event__input--destination').addEventListener('change', this._onPointInput);
     this.getElement().querySelector('.event__type-group').addEventListener('change', this._onPointTypeChange);
+    this.getElement().querySelector('#event-price-1').addEventListener('change', this._onPointPriceInput);
   }
 
   _setDatePicker(datePicker) {
