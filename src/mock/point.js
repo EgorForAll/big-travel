@@ -43,7 +43,7 @@ export const generateRandomPoint = () => {
   }
 
   export const EMPTY_POINT = {
-    type: getRandomArr(TYPE),
+    type: TYPE[0],
     price: 0,
     date_from: dayjs(),
     date_to: dayjs(),
@@ -61,6 +61,9 @@ export const generateRandomPoint = () => {
       msec -= hh * 1000 * 60 * 60;
       var mm = Math.floor(msec / 1000 / 60);
       return `${hh}H ${mm}M`
+    },
+    get image() {
+      return PNG[7];
     },
     offer: {
       type: getRandomArr(TYPE),

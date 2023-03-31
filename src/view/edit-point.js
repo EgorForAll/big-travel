@@ -1,9 +1,9 @@
-import { FORM_DATE_FORMAT_ONE, CITIES } from "../mock/const";
+import { FORM_DATE_FORMAT_ONE, CITIES, DESCS } from "../mock/const";
 import { EMPTY_POINT } from "../mock/point";
 import { pickElementDependOnValue, compareTwoDates } from "../utils/point";
 import Smart from "./smart";
 import { OFFER_OPTIONS, PNG } from "../mock/const";
-import { checkPng } from "../utils/common";
+import { checkPng, getRandomArr, getRandomInteger } from "../utils/common";
 import flatpickr from 'flatpickr';
 import dayjs from "dayjs";
 
@@ -262,14 +262,11 @@ export default class PointEditForm extends Smart {
     }
 
     this.updateData({
-      description: getRandomArr(DESCS),
-      name: evt.target.value,
-      pictures: [
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
-        ]
+      destination: Object.assign(
+        {},
+        this._pointState.destination,
+        {name: evt.target.value}
+      )
     })
   }
 

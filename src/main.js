@@ -24,3 +24,8 @@ render(siteFilterElement, new FitersView(filters), RenderPosition.BEFOREEND);
 
 const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel);
 boardPresenter.init(points);
+
+document.querySelector('.trip-main__event-add-btn').addEventListener('click', (evt) => {
+  evt.preventDefault();
+  boardPresenter.createPoint();
+})

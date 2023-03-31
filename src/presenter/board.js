@@ -6,6 +6,7 @@ import EmptyTripInfo from "../view/trip-info-empty";
 import TripCostView from "../view/trip-cost";
 import PointsListView from "../view/list";
 import Point from "./point";
+import NewPointPresenter from "./point-new";
 import EmptyList from "../view/list-empty";
 import EmptyCostView from "../view/empty-cost";
 import { render,  RenderPosition, remove } from "../utils/render";
@@ -26,7 +27,7 @@ export default class Board {
     this._emptyTripInfo = new EmptyTripInfo();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
-    this._pointNewPresenter = new Point(this._pointsListComponent, this._handleViewAction);
+    this._pointNewPresenter = new NewPointPresenter(this._pointsListComponent, this._handleViewAction);
 
     this._handlePointChange = this._handlePointChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -59,6 +60,11 @@ export default class Board {
     this._renderBoard();
   }
 
+  createPoint() {
+    this._currentSortType = SortType.DAY;
+    this._pointNewPresenter.init();
+  }
+
   _handleSortTypeChange(sortType) {
       if (this._currentSortType === sortType) {
       return;
@@ -70,6 +76,7 @@ export default class Board {
   }
 
   _handleModeChange() {
+    this._pointNewPresenter.destroy();
     Object
       .values(this._pointPresenter)
       .forEach((presenter) => presenter.resetView());
@@ -103,7 +110,7 @@ export default class Board {
         switch (updateType) {
       case UpdateType.PATCH:
         // - обновить часть списка (например, когда поменялось описание)
-        this._taskPresenter[data.id].init(data);
+        this._pointPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
         // - обновить список (например, когда задача ушла в архив)

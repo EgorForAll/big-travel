@@ -101,7 +101,6 @@ export default class Point {
   }
 
   _onEscDownHandler(evt) {
-   evt.preventDefault();
     if (evt.key === 'Escape' || evt.key === 'Esc') {
     this._editPointComponent.reset(this._point);
     this._replaceEditFormToPoint();
@@ -116,7 +115,7 @@ export default class Point {
     const isMinorUpdate =
       !isDatesEqual(this._point.date_from, update.date_from) && !isDatesEqual(this._point.date_to, update.date_to)
     this._changeData(
-      UserAction.UPDATE_TASK,
+      UserAction.UPDATE_POINT,
       isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       update,
     );
