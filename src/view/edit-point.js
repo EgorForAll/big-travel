@@ -195,6 +195,7 @@ export default class PointEditForm extends Smart {
     this._onPointTypeChange = this._onPointTypeChange.bind(this);
     this._onPointInput = this._onPointInput.bind(this);
     this._onDateFromCange = this._onDateFromCange.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._onDateToCange = this._onDateToCange.bind(this);
 
     this._setDatePicker(this._pickerStartDate);
@@ -219,6 +220,18 @@ export default class PointEditForm extends Smart {
 
   getTemplate() {
     return createEditPointTemplate(this._pointState);
+  }
+
+  removeElement() {
+    super.removeElement();
+
+    if (this._pickerStartDate || this._pickerEndDate) {
+      this._pickerStartDate.destroy();
+      this._pickerStartDate = null;
+      this._pickerEndDate.destroy();
+      this._pickerEndDate = null;
+    }
+
   }
 
   _formSubmitHandler(evt) {
@@ -312,8 +325,19 @@ export default class PointEditForm extends Smart {
     this._setInnerListeners();
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.hideEditFormClickHandler(this._callback.clickHide);
+    this.setDeleteClickHandler(this._callback.deleteClick);
     this._setDatePicker(this._pickerStartDate);
     this._setDatePicker(this._pickerEndDate);
+  }
+
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.deleteClick(PointEditForm.parseStateToPointData(this._pointState));
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector('.event__reset-btn').addEventListener('click', this._formDeleteClickHandler);
   }
 
   reset(pointData) {

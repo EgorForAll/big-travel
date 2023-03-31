@@ -66,3 +66,7 @@ export const sortByTime = (pointA, pointB) => {
 
 export const pickElementDependOnValue = (value, elementValueDependency) => 
   elementValueDependency[Object.keys(elementValueDependency).find((type) => type === value)];
+
+  export const isDatesEqual = (dateA, dateB) => {
+  return (dateA === null && dateB === null) ? true : dayjs(dateA).isSame(dateB, 'D');
+};

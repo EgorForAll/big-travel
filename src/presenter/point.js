@@ -2,6 +2,7 @@ import PointView from "../view/point";
 import PointEditForm from "../view/edit-point";
 import { RenderPosition, render, replace, remove } from "../utils/render";
 import { UpdateType, UserAction } from "../mock/const";
+import { isDatesEqual } from "../utils/point";
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -23,6 +24,7 @@ export default class Point {
     this._handleFormClick = this._handleFormClick.bind(this);
     this._onEscDownHandler = this._onEscDownHandler.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
   }
 
   init(point) {
@@ -40,6 +42,7 @@ export default class Point {
     this._editPointComponent._onDateFromCange(this._handleFormSubmit);
     this._editPointComponent._onDateToCange(this._handleFormSubmit);
     this._editPointComponent.hideEditFormClickHandler(this._handleFormClick);
+    this._editPointComponent.setDeleteClickHandler(this._handleDeleteClick);
 
   if (prevPointComponent === null || prevPointEditComponent === null) {
     render(this._pointListContainer, this._pointComponent, RenderPosition.BEFOREEND);
@@ -109,17 +112,27 @@ export default class Point {
     this._replacePointToEditForm();
   }
 
-  _handleFormSubmit(point){
+  _handleFormSubmit(update){
+    const isMinorUpdate =
+      !isDatesEqual(this._point.date_from, update.date_from) && !isDatesEqual(this._point.date_to, update.date_to)
     this._changeData(
       UserAction.UPDATE_TASK,
-      UpdateType.MINOR,
-      point,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      update,
     );
     this._replaceEditFormToPoint();
   }
 
   _handleFormClick() {
     this._replaceEditFormToPoint();
+  }
+
+  _handleDeleteClick(point) {
+    this._changeData(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   }
 
 }

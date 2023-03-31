@@ -14,7 +14,7 @@ export default class PointsModel extends Observer {
     return this._points;
   }
 
-  updateTask(updateType, update) {
+  updatePoint(updateType, update) {
     const index = this._points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
@@ -30,7 +30,7 @@ export default class PointsModel extends Observer {
     this._notify(updateType, update);
   }
 
-  addTask(updateType, update) {
+  addPoint(updateType, update) {
     this._points = [
       update,
       ...this._points,
@@ -39,18 +39,15 @@ export default class PointsModel extends Observer {
     this._notify(updateType, update);
   }
 
-  deleteTask(updateType, update) {
-    const index = this._tasks.findIndex((task) => task.id === update.id);
+  deletePoint(updateType, update) {
+    const index = this._points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
       throw new Error('Can\'t delete unexisting task');
     }
 
-    this._points = [
-      ...this._points.slice(0, index),
-      ...this._points.slice(index + 1),
-    ];
-
+    this._points.splice(index, 1);
+    console.log(this._points)
     this._notify(updateType);
   }
 }

@@ -6,7 +6,7 @@ import MainMenuView from './view/main-menu';
 import FitersView from "./view/filter";
 import BoardPresenter from "./presenter/board";
 
-const POINT_COUNT = 18;
+const POINT_COUNT = 6;
 
 const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
 const filters = generateFilter(points);

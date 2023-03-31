@@ -26,12 +26,14 @@ export default class Board {
     this._emptyTripInfo = new EmptyTripInfo();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
+    this._pointNewPresenter = new Point(this._pointsListComponent, this._handleViewAction);
 
     this._handlePointChange = this._handlePointChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
+    this._pointModel.addObserver(this._handleModelEvent);
     this._currentSortType = SortType.DAY;
     this._pointPresenter = {};
   }
@@ -51,6 +53,7 @@ export default class Board {
   init() {
     render(this._boardContainer, this._pointsListComponent, RenderPosition.BEFOREEND);
 
+    console.log(this._getPoints())
     this._renderTripInfo(this._getPoints());
     this._renderCost(this._getPoints());
     this._renderBoard();
@@ -77,17 +80,16 @@ export default class Board {
   }
 
    _handleViewAction(actionType, updateType, update) {
-    console.log(this._getPoints())
     console.log(actionType, updateType, update);
       switch (actionType) {
-      case UserAction.UPDATE_TASK:
-        this._pointModel.updateTask(updateType, update);
+      case UserAction.UPDATE_POINT:
+        this._pointModel.updatePoint(updateType, update);
         break;
-      case UserAction.ADD_TASK:
-        this._pointModel.addTask(updateType, update);
+      case UserAction.ADD_POINT:
+        this._pointModel.addPoint(updateType, update);
         break;
-      case UserAction.DELETE_TASK:
-        this._pointModel.deleteTask(updateType, update);
+      case UserAction.DELETE_POINT:
+        this._pointModel.deletePoint(updateType, update);
         break;
     }
   }
@@ -156,8 +158,8 @@ export default class Board {
   this._pointPresenter[point.id] = pointPresenter;
   }
 
-  _renderPoints() {
-    this._getPoints().forEach((point) => this._renderPoint(point));
+  _renderPoints(points) {
+    points.forEach((point) => this._renderPoint(point));
   }
 
   _renderEmptyList() {
@@ -169,9 +171,10 @@ export default class Board {
     this._renderEmptyList();
     return;
     }
+    const points = this._getPoints();
 
     this._renderSort();
-    this._renderPoints();
+    this._renderPoints(points);
   }
 
   _clearPointList() {
@@ -182,6 +185,8 @@ export default class Board {
   }
 
   _clearBoard({resetSortType = false} = {}) {
+
+    this._pointNewPresenter.destroy();
 
     Object
       .values(this._pointPresenter)

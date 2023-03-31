@@ -1,9 +1,9 @@
 const TYPE = ['Taxi', 'Bus', 'Train', 'Ship', 'Transport', 'Drive', 'Flight', 'Checkin', 'Sightseeng', 'Restaurant'];
 
 const UserAction = {
-  UPDATE_TASK: 'UPDATE_TASK',
-  ADD_TASK: 'ADD_TASK',
-  DELETE_TASK: 'DELETE_TASK',
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
 };
 
 const UpdateType = {
@@ -11,6 +11,12 @@ const UpdateType = {
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
 };
+
+const FilterType ={
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PAST: 'past'
+}
 
 const PNG = [
   'img/icons/checkin.png',
@@ -161,4 +167,4 @@ const OFFER_OPTIONS = {
 }
 
 
-export { TYPE, DESCS, CITIES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS, UserAction, UpdateType}
+export { TYPE, DESCS, CITIES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS, UserAction, UpdateType, FilterType}
