@@ -40,7 +40,7 @@ const DESCS = [
 
 const CITIES = ['Moscow', 'Paris', 'Boston', 'Pekin', 'London'];
 
-const FORM_DATE_FORMAT_ONE = 'YY/MM/DDTHH:mm';
+const FORM_DATE_FORMAT_ONE = 'YY/MM/DDHH:mm';
 
 const SortType = {
   DAY: 'day',

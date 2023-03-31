@@ -314,26 +314,19 @@ export default class PointEditForm extends Smart {
     }
 
   _onDateFromChange(userInput) {
-    if(compareTwoDates(this._pointState.date_to, userInput) < 0) {
+    if(compareTwoDates(this._pointState.date_to, userInput) > 0) {
       this.updateData({
-        date_from: dayjs(userInput),
-        date_to: dayjs(userInput)
+        date_from: userInput,
         });
-        return
-    } else {
-      this.updateData({
-        date_from: dayjs(userInput),
-      })
-    }
+    }  
   }
+  
 
   _onDateToChange(userInput) {
-    if(compareTwoDates(dayjs(userInput), this._pointState.date_from) < 0) {
+    if(compareTwoDates(userInput, this._pointState.date_from) > 0) {
       this.updateData({
-        date_to: dayjs(userInput),
-        date_from: dayjs(userInput)
+        date_to: userInput,
     });
-      return;
     }
   }
 
