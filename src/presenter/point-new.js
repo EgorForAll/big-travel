@@ -1,6 +1,7 @@
 import { render, RenderPosition, remove } from "../utils/render";
-import Abstract from "../view/abstract";
+import { UserAction, UpdateType } from "../mock/const";
 import PointEditForm from "../view/edit-point";
+import { nanoid } from "nanoid";
 
 export default class NewPointPresenter {
   constructor(container, changeData) {
@@ -8,7 +9,7 @@ export default class NewPointPresenter {
     this._changeData = changeData;
     this._pointEditComponent = null;
 
-    // this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
     // this._handleDeleteClick = this._handleDeleteClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
@@ -36,6 +37,18 @@ export default class NewPointPresenter {
     this._pointEditComponent = null;
 
     document.removeEventListener('keydown', this._escKeyDownHandler);
+  }
+
+
+  _handleFormSubmit(point) {
+    this._changeData(
+      UserAction.ADD_POINT,
+      UpdateType.MINOR,
+
+      Object.assign({id: nanoid()}, point),
+    );
+    
+    this.destroy();
   }
 
     _escKeyDownHandler(evt) {

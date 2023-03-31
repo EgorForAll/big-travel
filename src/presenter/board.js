@@ -27,7 +27,6 @@ export default class Board {
     this._emptyTripInfo = new EmptyTripInfo();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
-    this._pointNewPresenter = new NewPointPresenter(this._pointsListComponent, this._handleViewAction);
 
     this._handlePointChange = this._handlePointChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -35,6 +34,7 @@ export default class Board {
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._pointModel.addObserver(this._handleModelEvent);
+    this._pointNewPresenter = new NewPointPresenter(this._pointsListComponent, this._handleViewAction);
     this._currentSortType = SortType.DAY;
     this._pointPresenter = {};
   }
@@ -54,7 +54,6 @@ export default class Board {
   init() {
     render(this._boardContainer, this._pointsListComponent, RenderPosition.BEFOREEND);
 
-    console.log(this._getPoints())
     this._renderTripInfo(this._getPoints());
     this._renderCost(this._getPoints());
     this._renderBoard();
@@ -86,39 +85,31 @@ export default class Board {
     this._pointPresenter[updatedPoint.id].init(updatedPoint);
   }
 
-   _handleViewAction(actionType, updateType, update) {
-    console.log(actionType, updateType, update);
-      switch (actionType) {
-      case UserAction.UPDATE_POINT:
-        this._pointModel.updatePoint(updateType, update);
-        break;
-      case UserAction.ADD_POINT:
-        this._pointModel.addPoint(updateType, update);
-        break;
-      case UserAction.DELETE_POINT:
-        this._pointModel.deletePoint(updateType, update);
-        break;
+  _handleViewAction(actionType, UpdateType, update) {
+
+    switch (actionType) {
+    case UserAction.UPDATE_POINT:
+      this._pointModel.updatePoint(UpdateType, update);
+      break;
+    case UserAction.ADD_POINT:
+      this._pointModel.addPoint(UpdateType, update);
+      break;
+    case UserAction.DELETE_POINT:
+      this._pointModel.deletePoint(UpdateType, update);
+      break;
     }
   }
-
+  
   _handleModelEvent(updateType, data) {
-    console.log(updateType, data);
-    // В зависимости от типа изменений решаем, что делать:
-    // - обновить часть списка (например, когда поменялось описание)
-    // - обновить список (например, когда задача ушла в архив)
-    // - обновить всю доску (например, при переключении фильтра)
-        switch (updateType) {
+    switch (updateType) {
       case UpdateType.PATCH:
-        // - обновить часть списка (например, когда поменялось описание)
-        this._pointPresenter[data.id].init(data);
+        this._pontPresenter[data.id].init(data);
         break;
       case UpdateType.MINOR:
-        // - обновить список (например, когда задача ушла в архив)
         this._clearBoard();
         this._renderBoard();
         break;
       case UpdateType.MAJOR:
-        // - обновить всю доску (например, при переключении фильтра)
         this._clearBoard({resetSortType: true});
         this._renderBoard();
         break;
@@ -179,7 +170,7 @@ export default class Board {
     return;
     }
     const points = this._getPoints();
-
+    console.log(points)
     this._renderSort();
     this._renderPoints(points);
   }
@@ -207,4 +198,4 @@ export default class Board {
       this._currentSortType = SortType.DAY;
     }
   }
-}
+  }

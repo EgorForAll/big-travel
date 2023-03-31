@@ -65,8 +65,7 @@ export const generateRandomPoint = () => {
     get image() {
       return PNG[7];
     },
-    offer: {
-      type: getRandomArr(TYPE),
-      options: ['Switch to comfort', 'Order Uber']
+    get offer() {
+      return pickElementDependOnValue(this.type, OFFER_OPTIONS)
     }
   }
