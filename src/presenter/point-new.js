@@ -10,7 +10,7 @@ export default class NewPointPresenter {
     this._pointEditComponent = null;
 
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
-    // this._handleDeleteClick = this._handleDeleteClick.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
@@ -22,6 +22,7 @@ export default class NewPointPresenter {
     this._pointEditComponent = new PointEditForm();
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._pointEditComponent.setDeleteClickHandler(this._handleDeleteClick);
+    this._pointEditComponent.hideEditFormClickHandler(this._handleDeleteClick);
 
     render(this._pointListContainer, this._pointEditComponent, RenderPosition.AFTERBEGIN);
 
@@ -39,6 +40,9 @@ export default class NewPointPresenter {
     document.removeEventListener('keydown', this._escKeyDownHandler);
   }
 
+  _handleDeleteClick() {
+    this.destroy();
+  }
 
   _handleFormSubmit(point) {
     this._changeData(
@@ -47,7 +51,7 @@ export default class NewPointPresenter {
 
       Object.assign({id: nanoid()}, point),
     );
-    
+
     this.destroy();
   }
 
