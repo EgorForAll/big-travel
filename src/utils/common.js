@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { FORM_DATE_FORMAT_ONE } from "../mock/const";
 // Функция по генерации случайного целого числа
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -13,12 +14,16 @@ const getRandomArr = (arr) => arr[getRandomInteger(0, arr.length -1)];
 const generateDate = () => {
   const dateRandom = new Date(2023, getRandomInteger(0, 12), getRandomInteger(0, 30), getRandomInteger(0, 24), getRandomInteger(0, 60));
 
-  const dateFrom = dayjs(dateRandom);
-  const dateTo = dateFrom.add(getRandomInteger(1, 4), 'hour').add(getRandomInteger(0, 60), 'minutes');
-  
+  const dateFrom = dateRandom;
+  let dateTo = dayjs(dateFrom);
+
+  dateTo = dateTo.add(getRandomInteger(1, 4), 'hour').add(getRandomInteger(0, 60), 'minutes');
+
+  dateTo = dateTo.toDate();
+
   return {
-    dateFrom: dateFrom,
-    dateTo: dateTo
+    dateFrom,
+    dateTo
   }
 }
 

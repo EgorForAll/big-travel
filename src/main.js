@@ -10,6 +10,7 @@ const POINT_COUNT = 6;
 
 const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
 const filters = generateFilter(points);
+console.log(points)
 
 const pointsModel = new PointsModel();
 pointsModel.setPoints(points);

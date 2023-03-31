@@ -70,3 +70,14 @@ export const pickElementDependOnValue = (value, elementValueDependency) =>
   export const isDatesEqual = (dateA, dateB) => {
   return (dateA === null && dateB === null) ? true : dayjs(dateA).isSame(dateB, 'D');
 };
+
+export const getDifferanceTime = (dateFrom, dateTo) => {
+
+  let diff = Math.floor(dateTo.getTime() - dateFrom.getTime());
+
+  const hh = Math.floor(diff / 1000 / 60 / 60);
+  diff -= hh * 1000 * 60 * 60;
+  const mm = Math.floor(diff / 1000 / 60);
+
+  return `${hh}H ${mm}M`
+}

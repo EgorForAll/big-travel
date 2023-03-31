@@ -39,8 +39,8 @@ export default class Point {
     this._pointComponent.setShowFormHanler(this._handlePointClick);
     this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._editPointComponent.setFormSubmitHandler(this._handleFormSubmit);
-    this._editPointComponent._onDateFromCange(this._handleFormSubmit);
-    this._editPointComponent._onDateToCange(this._handleFormSubmit);
+    this._editPointComponent._onDateFromChange(this._handleFormSubmit);
+    this._editPointComponent._onDateToChange(this._handleFormSubmit);
     this._editPointComponent.hideEditFormClickHandler(this._handleFormClick);
     this._editPointComponent.setDeleteClickHandler(this._handleDeleteClick);
 

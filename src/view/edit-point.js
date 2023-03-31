@@ -3,7 +3,7 @@ import { EMPTY_POINT } from "../mock/point";
 import { pickElementDependOnValue, compareTwoDates } from "../utils/point";
 import Smart from "./smart";
 import { OFFER_OPTIONS, PNG } from "../mock/const";
-import { checkPng, getRandomArr, getRandomInteger } from "../utils/common";
+import { checkPng } from "../utils/common";
 import flatpickr from 'flatpickr';
 import dayjs from "dayjs";
 
@@ -195,9 +195,9 @@ export default class PointEditForm extends Smart {
     this._onPointTypeChange = this._onPointTypeChange.bind(this);
     this._onPointInput = this._onPointInput.bind(this);
     this._onPointPriceInput = this._onPointPriceInput.bind(this);
-    this._onDateFromCange = this._onDateFromCange.bind(this);
+    this._onDateFromChange = this._onDateFromChange.bind(this);
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
-    this._onDateToCange = this._onDateToCange.bind(this);
+    this._onDateToChange = this._onDateToChange.bind(this);
 
     this._setDatePicker(this._pickerStartDate);
     this._setDatePicker(this._pickerEndDate);
@@ -299,7 +299,7 @@ export default class PointEditForm extends Smart {
       {
         dateFormat: 'd/m/y H:i',
         defaultDate: this._pointState.date_from,
-        onChange: this._onDateFromCange
+        onChange: this._onDateFromChange
       },
     );
 
@@ -308,26 +308,32 @@ export default class PointEditForm extends Smart {
       {
         dateFormat: 'd/m/y H:i',
         defaultDate: this._pointState.date_to,
-        onChange: this._onDateToCange
+        onChange: this._onDateToChange
       },
     );
     }
 
-  _onDateFromCange(userInput) {
-    if(compareTwoDates(this._pointState.date_to, dayjs(userInput)) < 0) {
+  _onDateFromChange(userInput) {
+    if(compareTwoDates(this._pointState.date_to, userInput) < 0) {
       this.updateData({
-        date_from: userInput,
-        date_to: userInput
+        date_from: dayjs(userInput),
+        date_to: dayjs(userInput)
         });
-        return;
+        return
+    } else {
+      this.updateData({
+        date_from: dayjs(userInput),
+      })
     }
   }
 
-  _onDateToCange(userInput) {
+  _onDateToChange(userInput) {
     if(compareTwoDates(dayjs(userInput), this._pointState.date_from) < 0) {
       this.updateData({
-        date_to: userInput
-    })
+        date_to: dayjs(userInput),
+        date_from: dayjs(userInput)
+    });
+      return;
     }
   }
 
