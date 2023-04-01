@@ -1,9 +1,10 @@
 import { isFuture, isPast } from "../utils/point";
+import { FilterType } from "./const";
 
-const pointsToFilterMap = {
-everything: (points) => points.filter((point) => point),
-future: (points) => points.filter((point) => isFuture(point.date_from)).length,
-past: (points) => points.filter((point) => isPast(point.date_from)).length
+export const pointsToFilterMap = {
+[FilterType.EVERYTHING]: (points) => points.filter((point) => point),
+[FilterType.FUTURE]: (points) => points.filter((point) => isFuture(point.date_from)).length,
+[FilterType.PAST]: (points) => points.filter((point) => isPast(point.date_from)).length
 }
 
 export const generateFilter = (points) => {
@@ -11,6 +12,7 @@ export const generateFilter = (points) => {
     return {
       name: filterName,
       count: countPoints(points),
+      type: filterName
     };
   });
 };

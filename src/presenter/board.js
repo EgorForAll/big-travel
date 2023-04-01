@@ -7,17 +7,19 @@ import PointsListView from "../view/list";
 import Point from "./point";
 import NewPointPresenter from "./point-new";
 import EmptyList from "../view/list-empty";
+import { pointsToFilterMap } from "../mock/filter";
 import { render,  RenderPosition, remove } from "../utils/render";
 import { UserAction, UpdateType } from "../mock/const";
-import { SortType } from "../mock/const";
+import { SortType, FilterType } from "../mock/const";
 import { sortByPrice, sortByTime } from "../utils/point";
 
 const siteMain = document.querySelector('.trip-main');
 
 export default class Board {
-  constructor(boardContainer, pointModel) {
+  constructor(boardContainer, pointModel, filterModel) {
     this._boardContainer = boardContainer;
-    this._pointModel = pointModel
+    this._pointModel = pointModel;
+    this._filterModel = filterModel;
     this._sortComponent = null;
     this._pointComponent = new PointView();
     this._pointEditComponent = new PointEditForm();
@@ -30,18 +32,22 @@ export default class Board {
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._pointModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
     this._pointNewPresenter = new NewPointPresenter(this._pointsListComponent, this._handleViewAction);
     this._currentSortType = SortType.DAY;
     this._pointPresenter = {};
   }
 
   _getPoints() {
+    const filterType = this._filterModel.getFilter();
+    const points = this._pointModel.getPoints();
+    const filtredPoints = pointsToFilterMap[filterType](points);
 
     switch (this._currentSortType) {
       case SortType.TIME:
-        return this._pointModel.getPoints().slice().sort(sortByTime);
+        return filtredPoints.sort(sortByTime);
       case SortType.PRICE:
-        return this._pointModel.getPoints().slice().sort(sortByPrice);
+        return filtredPoints.sort(sortByPrice);
     }
 
     return this._pointModel.getPoints();
@@ -56,6 +62,7 @@ export default class Board {
   createPoint() {
     this._currentSortType = SortType.DAY;
     this._pointNewPresenter.init();
+    this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
   }
 
   _handleSortTypeChange(sortType) {

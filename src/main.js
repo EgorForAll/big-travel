@@ -5,15 +5,18 @@ import PointsModel from "./model/point";
 import MainMenuView from './view/main-menu';
 import FitersView from "./view/filter";
 import BoardPresenter from "./presenter/board";
+import FilterModel from "./model/filter";
+import FilterPresenter from "./presenter/filter";
 
 const POINT_COUNT = 6;
 
 const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
 const filters = generateFilter(points);
-console.log(points)
+console.log(filters);
 
 const pointsModel = new PointsModel();
 pointsModel.setPoints(points);
+const filterModel = new FilterModel();
 
 const siteBodyElement = document.querySelector('.page-body');
 const siteTripBoardElement = siteBodyElement.querySelector('.trip-events');
@@ -21,9 +24,10 @@ const siteMenuElement = siteBodyElement.querySelector('.trip-controls__navigatio
 render(siteMenuElement, new MainMenuView(), RenderPosition.BEFOREEND);
 
 const siteFilterElement = siteBodyElement.querySelector('.trip-controls__filters');
-render(siteFilterElement, new FitersView(filters), RenderPosition.BEFOREEND);
+const filterPresenter = new FilterPresenter(siteFilterElement, filterModel, pointsModel);
+filterPresenter.init();
 
-const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel);
+const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel);
 boardPresenter.init(points);
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', (evt) => {
