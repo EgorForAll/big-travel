@@ -2,13 +2,11 @@ import SortView from "../view/trip-sort";
 import PointView from "../view/point";
 import PointEditForm from "../view/edit-point";
 import TripInfoView from "../view/trip-info-template";
-import EmptyTripInfo from "../view/trip-info-empty";
 import TripCostView from "../view/trip-cost";
 import PointsListView from "../view/list";
 import Point from "./point";
 import NewPointPresenter from "./point-new";
 import EmptyList from "../view/list-empty";
-import EmptyCostView from "../view/empty-cost";
 import { render,  RenderPosition, remove } from "../utils/render";
 import { UserAction, UpdateType } from "../mock/const";
 import { SortType } from "../mock/const";
@@ -23,8 +21,6 @@ export default class Board {
     this._sortComponent = null;
     this._pointComponent = new PointView();
     this._pointEditComponent = new PointEditForm();
-    this._emptyCostComponent = new EmptyCostView();
-    this._emptyTripInfo = new EmptyTripInfo();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
 
@@ -54,8 +50,6 @@ export default class Board {
   init() {
     render(this._boardContainer, this._pointsListComponent, RenderPosition.BEFOREEND);
 
-    this._renderTripInfo(this._getPoints());
-    this._renderCost(this._getPoints());
     this._renderBoard();
   }
 
@@ -118,22 +112,13 @@ export default class Board {
 
   _renderTripInfo() {
     if (this._getPoints().length === 0) {
-      render(siteMain, this._emptyTripInfo, RenderPosition.AFTERBEGIN);
       return;
     }
 
     this._tripInfoComponent = new TripInfoView(this._getPoints());
+    this._tripCostComponent = new TripCostView(this._getPoints());
     render(siteMain, this._tripInfoComponent, RenderPosition.AFTERBEGIN);
-  }
-
-  _renderCost(points) {
-    if (this._getPoints().length === 0) {
-      render(siteMain, this._emptyCostComponent, RenderPosition.AFTERBEGIN);
-      return;
-    }
-
-    this._tripCostComponent = new TripCostView(points);
-    render(siteMain, this._tripCostComponent, RenderPosition.AFTERBEGIN);
+    render(this._tripInfoComponent.getElement(), this._tripCostComponent, RenderPosition.BEFOREEND);
   }
 
   _renderSort() {
@@ -169,10 +154,10 @@ export default class Board {
     this._renderEmptyList();
     return;
     }
-    const points = this._getPoints();
-    console.log(points)
+
     this._renderSort();
-    this._renderPoints(points);
+    this._renderTripInfo(this._getPoints());
+    this._renderPoints(this._getPoints());
   }
 
   _clearPointList() {
@@ -192,6 +177,7 @@ export default class Board {
     this._pointPresenter = {};
 
     remove(this._sortComponent);
+    this._tripInfoComponent !== undefined ? remove(this._tripInfoComponent) : null;
     remove(this._emptyListComponent);
 
     if (resetSortType) {
