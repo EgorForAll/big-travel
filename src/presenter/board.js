@@ -11,7 +11,7 @@ import { pointsToFilterMap } from "../mock/filter";
 import { render,  RenderPosition, remove } from "../utils/render";
 import { UserAction, UpdateType } from "../mock/const";
 import { SortType, FilterType } from "../mock/const";
-import { sortByPrice, sortByTime } from "../utils/point";
+import { sortByPrice, sortByTime, sortByDay} from "../utils/point";
 
 const siteMain = document.querySelector('.trip-main');
 
@@ -44,6 +44,8 @@ export default class Board {
     const filtredPoints = pointsToFilterMap[filterType](points);
 
     switch (this._currentSortType) {
+      case SortType.DAY:
+        return filtredPoints.sort(sortByDay);
       case SortType.TIME:
         return filtredPoints.sort(sortByTime);
       case SortType.PRICE:
@@ -160,10 +162,10 @@ export default class Board {
     this._renderEmptyList();
     return;
     }
-
-    this._renderSort();
+   
     this._renderTripInfo(this._getPoints());
     this._renderPoints(this._getPoints());
+    this._renderSort();
   }
 
   _clearPointList() {

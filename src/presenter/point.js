@@ -2,7 +2,6 @@ import PointView from "../view/point";
 import PointEditForm from "../view/edit-point";
 import { RenderPosition, render, replace, remove } from "../utils/render";
 import { UpdateType, UserAction } from "../mock/const";
-import { isDatesEqual } from "../utils/point";
 
 const Mode = {
   DEFAULT: 'DEFAULT',

@@ -43,6 +43,18 @@ const getSortWeightForEmptyValue = (valueA, valueB) => {
   return null;
 }
 
+export const sortByDay = (pointA, pointB) => {
+  const firstPointTime = pointA.date_from;
+  const nextPointTime = pointB.date_from; 
+  const sortWeightForEmptyValue = getSortWeightForEmptyValue(firstPointTime, nextPointTime);
+
+  if (sortWeightForEmptyValue !== null){
+    return sortWeightForEmptyValue;
+  }
+
+  return dayjs(firstPointTime).isAfter(dayjs(nextPointTime)) ? 1 : -1;
+}
+
 export const sortByPrice = (pointA, pointB) => {
   const sortWeightForEmptyValue = getSortWeightForEmptyValue(pointA.price, pointB.price);
 
