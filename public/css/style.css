@@ -943,10 +943,8 @@ main {
   background-color: #0d8ae4; }
 
 .event__destination-description {
-  width: 560px;
   margin: 0;
-  margin-bottom: 16px;
-  margin-left: 20px;
+  margin: 15px 20px;
   font-size: 15px;
   line-height: 18px; }
 

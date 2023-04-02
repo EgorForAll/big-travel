@@ -3,7 +3,7 @@ import { EMPTY_POINT } from "../mock/point";
 import { pickElementDependOnValue, compareTwoDates } from "../utils/point";
 import Smart from "./smart";
 import { OFFER_OPTIONS, PNG } from "../mock/const";
-import { checkPng } from "../utils/common";
+import { checkPng, getRandomInteger } from "../utils/common";
 import flatpickr from 'flatpickr';
 import dayjs from "dayjs";
 
@@ -266,7 +266,16 @@ export default class PointEditForm extends Smart {
       destination: Object.assign(
         {},
         this._pointState.destination,
-        {name: evt.target.value}
+        {
+          name: evt.target.value,
+          description:  DESCS[CITIES.indexOf(evt.target.value)],
+          pictures: [
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
+        ]
+        }
       )
     })
   }

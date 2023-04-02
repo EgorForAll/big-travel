@@ -60,8 +60,8 @@ export default class Board {
 
   createPoint() {
     this._currentSortType = SortType.DAY;
-    this._pointNewPresenter.init();
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this._pointNewPresenter.init();
   }
 
   _handleSortTypeChange(sortType) {

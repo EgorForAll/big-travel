@@ -15,7 +15,9 @@ export const generateRandomPoint = () => {
     date_to: getRandomDate.dateTo,
     is_favorite: Boolean(getRandomInteger(0, 1)),
     destination: {
-      description: getRandomArr(DESCS),
+      get description() {
+        return DESCS[CITIES.indexOf(this.name)];
+      },
       name: getRandomArr(CITIES),
       pictures: [
             `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
@@ -47,7 +49,12 @@ export const generateRandomPoint = () => {
     destination: {
       description: getRandomArr(DESCS),
       name: getRandomArr(CITIES),
-      pictures: []
+      pictures: [
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
+        ]
       },
     get differenceTime() {
       return getDifferanceTime(this.date_from, this.date_to);

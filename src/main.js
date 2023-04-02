@@ -27,7 +27,6 @@ filterPresenter.init();
 const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel);
 boardPresenter.init(points);
 
-document.querySelector('.trip-main__event-add-btn').addEventListener('click', (evt) => {
-  evt.preventDefault();
+document.querySelector('.trip-main__event-add-btn').addEventListener('click', () => {
   boardPresenter.createPoint();
 })
