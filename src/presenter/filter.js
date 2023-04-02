@@ -53,17 +53,17 @@ export default class FilterPresenter  {
       {
         type: FilterType.EVERYTHING,
         name: 'everything',
-        count: pointsToFilterMap[FilterType.EVERYTHING](points).length,
+        count: pointsToFilterMap[FilterType.EVERYTHING](points),
       },
       {
         type: FilterType.FUTURE,
         name: 'future',
-        count: pointsToFilterMap[FilterType.FUTURE](points).length,
+        count: pointsToFilterMap[FilterType.FUTURE](points),
       },
       {
-        type: FilterType.TODAY,
+        type: FilterType.PAST,
         name: 'past',
-        count: pointsToFilterMap[FilterType.PAST](points).length,
+        count: pointsToFilterMap[FilterType.PAST](points),
       }
     ];
   }

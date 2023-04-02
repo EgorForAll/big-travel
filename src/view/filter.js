@@ -7,7 +7,7 @@ const createFilterItemTemplate = (filter, currentFilterType) => {
     `<div class="trip-filters__filter">
     <input id="filter-${name}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value=${name}>
     <label class="trip-filters__filter-label" for="filter-${name}"
-    ${type === currentFilterType ? 'checked' : ''}
+    ${name === currentFilterType ? 'checked' : ''}
     ${count === 0 ? 'disabled' : ''}
     >${name}</label>
     </div>`
@@ -16,7 +16,7 @@ const createFilterItemTemplate = (filter, currentFilterType) => {
 
 const filterTemplate = (filterItems, currentFilterType) => {
   const filterItemsTemplate = filterItems
-    .map((filter, index) => createFilterItemTemplate(filter, currentFilterType))
+    .map((filter) => createFilterItemTemplate(filter, currentFilterType))
     .join('');
 
   return   `<form class="trip-filters" action="#" method="get">

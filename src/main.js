@@ -3,16 +3,13 @@ import { generateFilter } from "./mock/filter";
 import { render, RenderPosition } from "./utils/render";
 import PointsModel from "./model/point";
 import MainMenuView from './view/main-menu';
-import FitersView from "./view/filter";
 import BoardPresenter from "./presenter/board";
 import FilterModel from "./model/filter";
 import FilterPresenter from "./presenter/filter";
 
-const POINT_COUNT = 6;
+const POINT_COUNT = 18;
 
 const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
-const filters = generateFilter(points);
-console.log(filters);
 
 const pointsModel = new PointsModel();
 pointsModel.setPoints(points);

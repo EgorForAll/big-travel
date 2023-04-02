@@ -50,12 +50,11 @@ export default class Board {
         return filtredPoints.sort(sortByPrice);
     }
 
-    return this._pointModel.getPoints();
+    return filtredPoints;
   }
 
   init() {
     render(this._boardContainer, this._pointsListComponent, RenderPosition.BEFOREEND);
-
     this._renderBoard();
   }
 

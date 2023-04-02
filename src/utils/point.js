@@ -1,12 +1,14 @@
 import dayjs from "dayjs";
 
 // Фильтры
-export const isFuture = (dueDate) => {
-  return dueDate === null ? false : dayjs().isAfter(dueDate, 'D');
+const today = new Date();
+
+export const isFuture = (point) => {
+  return point.date_from === null ? false : dayjs(point.date_from).isAfter(dayjs(today));
 };
 
-export const isPast = (dueDate) => {
-  return dueDate === null ? fasle : dayjs().isBefore(dueDate, 'D');
+export const isPast = (point) => {
+  return point.date_from === null ? false : dayjs(point.date_from).isBefore(dayjs(today));
 }
 
 export const closeEditForm = (evt, parent, point, form) => {
