@@ -1,12 +1,11 @@
 import { generateRandomPoint} from "./mock/point";
-import StatsView from "./view/stats";
 import { render, RenderPosition } from "./utils/render";
 import PointsModel from "./model/point";
 import MainMenuView from './view/main-menu';
 import BoardPresenter from "./presenter/board";
 import FilterModel from "./model/filter";
 import FilterPresenter from "./presenter/filter";
-import { SortType } from "./mock/const";
+import StatsPresenter from "./presenter/stats";
 
 const POINT_COUNT = 18;
 
@@ -17,7 +16,6 @@ pointsModel.setPoints(points);
 const filterModel = new FilterModel();
 
 const siteBodyElement = document.querySelector('.page-body');
-const sitePageBodyContainer = siteBodyElement.querySelector('.page-main__container');
 const siteTripBoardElement = siteBodyElement.querySelector('.trip-events');
 const siteMenuElement = siteBodyElement.querySelector('.trip-controls__navigation');
 render(siteMenuElement, new MainMenuView(), RenderPosition.BEFOREEND);
@@ -33,13 +31,11 @@ document.querySelector('.trip-main__event-add-btn').addEventListener('click', ()
   boardPresenter.createPoint();
 })
 
-const stats = new StatsView();
-render(sitePageBodyContainer, stats.getElement(), RenderPosition.BEFOREEND);
-stats.hide();
+const statsPresenter = new StatsPresenter(pointsModel);
 
 const tableBtn = siteBodyElement.querySelector('.btn__table');
 tableBtn.addEventListener('click', () => {
-  stats.hide();
+  statsPresenter.hide();
   boardPresenter.show();
   tableBtn.classList.add('trip-tabs__btn--active');
   statsBtn.classList.remove('trip-tabs__btn--active');
@@ -47,7 +43,8 @@ tableBtn.addEventListener('click', () => {
 
 const statsBtn = siteBodyElement.querySelector('.btn__stats');
 statsBtn.addEventListener('click', () => {
-  stats.show();
+  statsPresenter.init();
+  statsPresenter.show();
   boardPresenter.hide();
   statsBtn.classList.add('trip-tabs__btn--active');
   tableBtn.classList.remove('trip-tabs__btn--active');

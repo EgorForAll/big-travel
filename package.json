@@ -36,6 +36,8 @@
     "node": "12"
   },
   "dependencies": {
+    "chart.js": "^4.2.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "1.9.5",
     "flatpickr": "^4.6.6",
     "http-proxy-middleware": "^2.0.6"
