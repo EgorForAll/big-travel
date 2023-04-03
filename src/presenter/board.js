@@ -195,6 +195,9 @@ export default class Board {
 
     show() {
       this._boardContainer.style.display = 'block';
+      this._currentSortType = SortType.DAY;
+      this._clearBoard();
+      this._renderBoard();
     }
 
     hide() {

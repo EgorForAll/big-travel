@@ -6,6 +6,7 @@ import MainMenuView from './view/main-menu';
 import BoardPresenter from "./presenter/board";
 import FilterModel from "./model/filter";
 import FilterPresenter from "./presenter/filter";
+import { SortType } from "./mock/const";
 
 const POINT_COUNT = 18;
 
@@ -38,8 +39,8 @@ stats.hide();
 
 const tableBtn = siteBodyElement.querySelector('.btn__table');
 tableBtn.addEventListener('click', () => {
-  boardPresenter.show();
   stats.hide();
+  boardPresenter.show();
   tableBtn.classList.add('trip-tabs__btn--active');
   statsBtn.classList.remove('trip-tabs__btn--active');
 })
