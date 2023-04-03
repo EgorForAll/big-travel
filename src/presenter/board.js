@@ -192,4 +192,12 @@ export default class Board {
       this._currentSortType = SortType.DAY;
     }
   }
+
+    show() {
+      this._boardContainer.style.display = 'block';
+    }
+
+    hide() {
+      this._boardContainer.style.display = 'none';
+    }
   }

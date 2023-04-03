@@ -25,4 +25,12 @@ export default class Abstract {
   removeElement() {
     this._element = null;
   }
+
+  show() {
+    this._element.style.display = 'block';
+  }
+
+  hide() {
+    this._element.style.display = 'none';
+  }
 }
