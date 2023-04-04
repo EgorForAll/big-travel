@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { generateRandomPoint } from "../mock/point";
 
 export const createPriceArray = (points) => {
@@ -50,3 +51,34 @@ export const createTypeArray = (points) => {
     Restaurant: sumType(points, 'Restaurant')
   }
 };
+
+const sumTime = (points, type) => {
+ let sum = 0;
+  points.forEach((point) => {
+    if (point.type === type) {
+      let dateFrom = point.date_from;
+      let dateTo = point.date_to;
+      let diff = Math.floor(dateTo.getTime() - dateFrom.getTime());
+      console.log(diff)
+      sum += diff;
+    }
+  })
+    return sum;
+}
+
+export const createTimeArray = (points) => {
+    return {
+    Taxi: sumTime(points, 'Taxi'),
+    Bus: sumTime(points, 'Bus'),
+    Train: sumTime(points, 'Train'),
+    Ship: sumTime(points, 'Ship'),
+    Transport: sumTime(points, 'Transport'),
+    Drive: sumTime(points, 'Drive'),
+    Flight: sumTime(points, 'Flight'),
+    Checkin: sumTime(points, 'Checkin'),
+    Sightseeng: sumTime(points, 'Sightseeng'),
+    Restaurant: sumTime(points, 'Restaurant')
+  }
+};
+
+

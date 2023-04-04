@@ -1,6 +1,6 @@
 import { render, RenderPosition } from "../utils/render";
 import { TYPE } from "../mock/const";
-import { createPriceArray, createTypeArray } from "../utils/stats";
+import { createPriceArray, createTypeArray, createTimeArray } from "../utils/stats";
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import StatsView from "../view/stats";
@@ -54,12 +54,13 @@ export default class StatsPresenter {
         labels: TYPE,
         datasets: [{
           data: Object.values(createPriceArray(points)),
-          backgroundColor: '#ffffff',
-          hoverBackgroundColor: '#ffffff',
+          backgroundColor: '#ffa000',
+          hoverBackgroundColor: '#ffbb29',
           anchor: 'start',
         }],
       },
       options: {
+        indexAxis: 'y',
         plugins: {
           datalabels: {
             font: {
@@ -67,7 +68,7 @@ export default class StatsPresenter {
             },
             color: '#000000',
             anchor: 'end',
-            align: 'start',
+            align: 'end',
             formatter: (val) => `€ ${val}`,
           },
         },
@@ -77,31 +78,6 @@ export default class StatsPresenter {
           fontColor: '#000000',
           fontSize: 23,
           position: 'left',
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              fontColor: '#000000',
-              padding: 5,
-              fontSize: 13,
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            barThickness: 44,
-          }],
-          xAxes: [{
-            ticks: {
-              display: false,
-              beginAtZero: true,
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            minBarLength: 50,
-          }],
         },
         legend: {
           display: false,
@@ -119,12 +95,13 @@ export default class StatsPresenter {
         labels: TYPE,
         datasets: [{
           data: Object.values(createTypeArray(points)),
-          backgroundColor: '#ffffff',
-          hoverBackgroundColor: '#ffffff',
+          backgroundColor: '#ffa000',
+          hoverBackgroundColor: '#ffbb29',
           anchor: 'start',
         }],
       },
       options: {
+        indexAxis: 'y',
         plugins: {
           datalabels: {
             font: {
@@ -132,7 +109,7 @@ export default class StatsPresenter {
             },
             color: '#000000',
             anchor: 'end',
-            align: 'start',
+            align: 'end',
             formatter: (val) => `${val}x`,
           },
         },
@@ -143,30 +120,46 @@ export default class StatsPresenter {
           fontSize: 23,
           position: 'left',
         },
-        scales: {
-          yAxes: [{
-            ticks: {
-              fontColor: '#000000',
-              padding: 5,
-              fontSize: 13,
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          enabled: false,
+        },
+      },
+    });
+
+    const timeChart = new Chart(timeCtx, {
+      plugins: [ChartDataLabels],
+      type: 'bar',
+      data: {
+        labels: TYPE,
+        datasets: [{
+          data: Object.values(createTimeArray(points)),
+          backgroundColor: '#ffa000',
+          hoverBackgroundColor: '#ffbb29',
+          anchor: 'start',
+        }],
+      },
+      options: {
+        indexAxis: 'y',
+        plugins: {
+          datalabels: {
+            font: {
+              size: 13,
             },
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            barThickness: 44,
-          }],
-          xAxes: [{
-            ticks: {
-              display: false,
-              beginAtZero: true,
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            minBarLength: 50,
-          }],
+            color: '#000000',
+            anchor: 'end',
+            align: 'end',
+            formatter: (val) => `${Math.floor(val/1000/60/60)} ч. ${Math.floor(val/1000/60/10)} м.`,
+          },
+        },
+        title: {
+          display: true,
+          text: 'TYPE',
+          fontColor: '#000000',
+          fontSize: 23,
+          position: 'left',
         },
         legend: {
           display: false,
