@@ -59,10 +59,10 @@ const sumTime = (points, type) => {
       let dateFrom = point.date_from;
       let dateTo = point.date_to;
       let diff = Math.floor(dateTo.getTime() - dateFrom.getTime());
-      console.log(diff)
       sum += diff;
     }
   })
+
     return sum;
 }
 

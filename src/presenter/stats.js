@@ -38,7 +38,6 @@ export default class StatsPresenter {
     const timeCtx = this._statsComponent.getElement().querySelector('#time-spend');
 
     const points = this._pointsModel.getPoints();
-    console.log(points)
     
     // Рассчитаем высоту канваса в зависимости от того, сколько данных в него будет передаваться
 
@@ -56,6 +55,7 @@ export default class StatsPresenter {
           data: Object.values(createPriceArray(points)),
           backgroundColor: '#ffa000',
           hoverBackgroundColor: '#ffbb29',
+          label: 'MONEY',
           anchor: 'start',
         }],
       },
@@ -96,6 +96,7 @@ export default class StatsPresenter {
         datasets: [{
           data: Object.values(createTypeArray(points)),
           backgroundColor: '#ffa000',
+          label: 'TYPE',
           hoverBackgroundColor: '#ffbb29',
           anchor: 'start',
         }],
@@ -138,6 +139,7 @@ export default class StatsPresenter {
           data: Object.values(createTimeArray(points)),
           backgroundColor: '#ffa000',
           hoverBackgroundColor: '#ffbb29',
+          label: 'TIME-SPEND',
           anchor: 'start',
         }],
       },
