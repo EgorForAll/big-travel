@@ -49,4 +49,39 @@ export default class PointsModel extends Observer {
     this._points.splice(index, 1);
     this._notify(updateType);
   }
+
+  static adaptToClient(point) {
+    const adaptedPoint = Object.assign(
+      {},
+      point,
+      {
+        price: base_price,
+        offer: offers
+      },
+    );
+
+    // Ненужные ключи мы удаляем
+    delete adaptedPoint.base_date;
+    delete adaptedPoint.offers;
+
+    return adaptedPoint;
+  }
+
+  static adaptToServer(point) {
+    const adaptedPoint = Object.assign(
+      {},
+      point,
+      {
+        base_price: price,
+        offers: offer
+      },
+    );
+
+    // Ненужные ключи мы удаляем
+    delete adaptedPoint.price;
+    delete adaptedPoint.offer;
+
+
+    return adaptedPoint;
+  }
 }

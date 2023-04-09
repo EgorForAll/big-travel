@@ -13,8 +13,8 @@ const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
 
 const api = new Api(END_POINT, AUTHORIZATION);
 
-api.getTasks().then((tasks) => {
-  console.log(tasks);
+api.getPoints().then((points) => {
+  console.log(points);
 });
 
 const POINT_COUNT = 18;

@@ -1,3 +1,5 @@
+import PointsModel from "./model/point";
+
 const Method = {
     GET: 'GET',
     PUT: 'PUT',
@@ -14,16 +16,17 @@ const Method = {
       this._authorization = authorization;
     }
   
-    getTasks() {
+    getPoints() {
       return this._load({url: 'points'})
-        .then(Api.toJSON);
+        .then(Api.toJSON)
+        .then((points) => points.map(PointsModel.adaptToClient));
     }
   
-    updateTask(task) {
+    updatePoint(point) {
       return this._load({
-        url: `points/${task.id}`,
+        url: `points/${point.id}`,
         method: Method.PUT,
-        body: JSON.stringify(task),
+        body: JSON.stringify(PointsModel.adaptToServer(point)),
         headers: new Headers({'Content-Type': 'application/json'}),
       })
         .then(Api.toJSON);
