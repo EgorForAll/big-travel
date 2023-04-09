@@ -6,10 +6,21 @@ import BoardPresenter from "./presenter/board";
 import FilterModel from "./model/filter";
 import FilterPresenter from "./presenter/filter";
 import StatsPresenter from "./presenter/stats";
+import Api from "./api";
+
+const AUTHORIZATION = 'Basic eo1w360ik46572a';
+const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
+
+const api = new Api(END_POINT, AUTHORIZATION);
+
+api.getTasks().then((tasks) => {
+  console.log(tasks);
+});
 
 const POINT_COUNT = 18;
 
 const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
+console.log(points)
 
 const pointsModel = new PointsModel();
 pointsModel.setPoints(points);
