@@ -10,6 +10,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 const FilterType ={
@@ -19,13 +20,13 @@ const FilterType ={
 }
 
 const PNG = [
-  'img/icons/checkin.png',
+  'img/icons/check-in.png',
   'img/icons/bus.png',
   'img/icons/drive.png',
   'img/icons/flight.png',
   'img/icons/restaurant.png',
   'img/icons/ship.png',
-  'img/icons/sightseeng.png',
+  'img/icons/sightseeing.png',
   'img/icons/taxi.png',
   'img/icons/train.png',
   'img/icons/transport.png'

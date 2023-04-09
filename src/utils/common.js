@@ -31,7 +31,7 @@ const generateDate = () => {
 const checkPng = (type, png) => {
   for (let item of png) {
     let path = item.slice(10, -4);
-    if (type == path) {
+    if (type === path) {
       return item;
     }
   }

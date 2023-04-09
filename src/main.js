@@ -1,5 +1,5 @@
-import { generateRandomPoint} from "./mock/point";
 import { render, RenderPosition } from "./utils/render";
+import { UpdateType } from "./mock/const";
 import PointsModel from "./model/point";
 import MainMenuView from './view/main-menu';
 import BoardPresenter from "./presenter/board";
@@ -13,17 +13,8 @@ const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
 
 const api = new Api(END_POINT, AUTHORIZATION);
 
-api.getPoints().then((points) => {
-  console.log(points);
-});
-
-const POINT_COUNT = 18;
-
-const points = new Array(POINT_COUNT).fill().map(generateRandomPoint);
-console.log(points)
-
 const pointsModel = new PointsModel();
-pointsModel.setPoints(points);
+
 const filterModel = new FilterModel();
 
 const siteBodyElement = document.querySelector('.page-body');
@@ -36,7 +27,7 @@ const filterPresenter = new FilterPresenter(siteFilterElement, filterModel, poin
 filterPresenter.init();
 
 const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel);
-boardPresenter.init(points);
+boardPresenter.init(pointsModel.getPoints());
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', () => {
   statsPresenter.destroyChart();
@@ -68,3 +59,10 @@ statsBtn.addEventListener('click', () => {
   tableBtn.classList.remove('trip-tabs__btn--active');
 })
 
+api.getPoints()
+  .then((points) => {
+    pointsModel.setPoints(UpdateType.INIT, points);
+  })
+  .catch(() => {
+    pointsModel.setPoints(UpdateType.INIT, []);
+  });

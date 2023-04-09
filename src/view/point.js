@@ -1,4 +1,7 @@
+import { PNG } from "../mock/const";
 import { EMPTY_POINT } from "../mock/point";
+import { checkPng } from "../utils/common";
+import { getDifferanceTime } from "../utils/point";
 import Abstract from "./abstract";
 import dayjs from "dayjs";
 
@@ -12,11 +15,14 @@ const createOfferTemplate = (element) => {
 
 const createPointTemplate = (point = EMPTY_POINT) => {
 
+  const image = checkPng(point.type, PNG);
+  const timeDuration = getDifferanceTime(point.date_from, point.date_to);
+
   return    `<li class="trip-events__item">
               <div class="event">
                 <time class="event__date" datetime=${dayjs(point.date_from).format('YYYY-MM-DD')}>${dayjs(point.date_from).format("MMM D")}</time>
                 <div class="event__type">
-                  <img class="event__type-icon" width="42" height="42" src=${point.image} alt="Event type icon">
+                  <img class="event__type-icon" width="42" height="42" src=${image} alt="Event type icon">
                 </div>
                 <h3 class="event__title">${point.type} ${point.destination.name}</h3>
                 <div class="event__schedule">
@@ -25,7 +31,7 @@ const createPointTemplate = (point = EMPTY_POINT) => {
                     &mdash;
                     <time class="event__end-time" datetime=${dayjs(point.date_to).format('YYYY-MM-DDTHH:mm')}>${dayjs(point.date_to).format('HH:mm')}</time>
                   </p>
-                  <p class="event__duration">${point.differenceTime}</p>
+                  <p class="event__duration">${timeDuration}</p>
                 </div>
                 <p class="event__price">
                   &euro;&nbsp;<span class="event__price-value">${point.price}</span>

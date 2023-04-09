@@ -1,4 +1,5 @@
 import Observer from "../utils/observer";
+import { UpdateType } from "../mock/const";
 
 export default class PointsModel extends Observer {
   constructor() {
@@ -6,12 +7,14 @@ export default class PointsModel extends Observer {
     this._points = [];
   }
 
-  setPoints(points) {
-    this._points = points.slice();
-  }
-
   getPoints() {
     return this._points;
+  }
+
+
+  setPoints(updateType, points) {
+    this._points = points.slice();
+    this._notify(updateType);
   }
 
   updatePoint(updateType, update) {
@@ -55,8 +58,10 @@ export default class PointsModel extends Observer {
       {},
       point,
       {
-        price: base_price,
-        offer: offers
+        price: point.base_price,
+        offer: point.offers,
+        date_from: new Date(point.date_from),
+        date_to: new Date(point.date_to)
       },
     );
 
@@ -72,8 +77,8 @@ export default class PointsModel extends Observer {
       {},
       point,
       {
-        base_price: price,
-        offers: offer
+        base_price: point.price,
+        offers: point.offer
       },
     );
 

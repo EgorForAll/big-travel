@@ -1,8 +1,7 @@
-import { FORM_DATE_FORMAT_ONE, CITIES, DESCS } from "../mock/const";
+import { FORM_DATE_FORMAT_ONE, CITIES, DESCS, OFFER_OPTIONS, PNG} from "../mock/const";
 import { EMPTY_POINT } from "../mock/point";
 import { pickElementDependOnValue, compareTwoDates } from "../utils/point";
 import Smart from "./smart";
-import { OFFER_OPTIONS, PNG } from "../mock/const";
 import { checkPng, getRandomInteger } from "../utils/common";
 import flatpickr from 'flatpickr';
 import dayjs from "dayjs";
@@ -123,7 +122,7 @@ const createEventDescriptionTemplate = (destination) => {
         <div class="event__photos-container">
         <div class="event__photos-tape">
         ${destination.pictures.map((item) => {
-          return `<img class="event__photo" src=${item} alt="Event photo"/>`;
+          return `<img class="event__photo" src=${item.src} alt=${item.description}/>`;
         }).join('')}
         </div>
       </div>
@@ -144,8 +143,8 @@ const createOffersEditTemplate = (offers) => {
 }
 
 const createEditPointTemplate = (point = EMPTY_POINT) => {
-
-  const eventTypeImageField = createEditEventTypeTemplate(point.image);
+  const image = checkPng(point.type, PNG);
+  const eventTypeImageField = createEditEventTypeTemplate(image);
   const eventDestinationField = createEventDestinationTemplate(point.type, point.destination.name, point.id);
   const eventDateField = createEventDateTemplate(point.date_from, point.date_to);
   const eventPriceField = createEventPriceTemplate(point.price);

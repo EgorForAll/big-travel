@@ -7,6 +7,7 @@ import PointsListView from "../view/list";
 import Point from "./point";
 import NewPointPresenter from "./point-new";
 import EmptyList from "../view/list-empty";
+import LoadingView from '../view/loading';
 import { pointsToFilterMap } from "../mock/filter";
 import { render,  RenderPosition, remove } from "../utils/render";
 import { UserAction, UpdateType } from "../mock/const";
@@ -20,11 +21,13 @@ export default class Board {
     this._boardContainer = boardContainer;
     this._pointModel = pointModel;
     this._filterModel = filterModel;
+    this._isLoading = true;
     this._sortComponent = null;
     this._pointComponent = new PointView();
     this._pointEditComponent = new PointEditForm();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
+    this._loadingComponent = new LoadingView();
 
     this._handlePointChange = this._handlePointChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -41,6 +44,7 @@ export default class Board {
   _getPoints() {
     const filterType = this._filterModel.getFilter();
     const points = this._pointModel.getPoints();
+    console.log(points)
     const filtredPoints = pointsToFilterMap[filterType](points);
 
     switch (this._currentSortType) {
@@ -116,6 +120,11 @@ export default class Board {
         this._clearBoard({resetSortType: true});
         this._renderBoard();
         break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
+        this._renderBoard();
+        break;
     }
   }
 
@@ -158,16 +167,25 @@ export default class Board {
     render(this._pointsListComponent, this._emptyListComponent, RenderPosition.AFTERBEGIN);
   }
 
-  _renderBoard() {
-  if (this._getPoints().length === 0) {
-    this._renderEmptyList();
-    return;
-    }
-   
-    this._renderTripInfo(this._getPoints());
-    this._renderPoints(this._getPoints());
-    this._renderSort();
+  _renderLoading() {
+    render(this._boardContainer, this._loadingComponent, RenderPosition.AFTERBEGIN);
   }
+
+  _renderBoard() {
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
+    if (this._getPoints().length === 0) {
+      this._renderEmptyList();
+      return;
+      }
+    
+      this._renderTripInfo(this._getPoints());
+      this._renderPoints(this._getPoints());
+      this._renderSort();
+    }
 
   _clearPointList() {
     Object
