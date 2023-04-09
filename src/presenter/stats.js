@@ -1,9 +1,9 @@
 import { render, RenderPosition } from "../utils/render";
 import { TYPE } from "../mock/const";
-import { createPriceArray, createTypeArray, createTimeArray } from "../utils/stats";
+import { createPriceArray, createTimeArray, createTypeArray } from "../utils/stats";
+import StatsView from "../view/stats";
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import StatsView from "../view/stats";
 
 const siteBodyElement = document.querySelector('.page-body');
 const sitePageBodyContainer = siteBodyElement.querySelector('.page-main__container');
@@ -12,6 +12,7 @@ export default class StatsPresenter {
   constructor(pointModel) {
     this._statsComponent = null;
     this._pointsModel = pointModel;
+    
   }
 
   init() {
@@ -20,8 +21,8 @@ export default class StatsPresenter {
     }
 
     this._statsComponent = new StatsView();
+    
     render(sitePageBodyContainer, this._statsComponent.getElement(), RenderPosition.BEFOREEND);
-    this._showGrafics();
   }
 
   show() {
@@ -32,21 +33,21 @@ export default class StatsPresenter {
     this._statsComponent.hide();
   }
 
-  _showGrafics(){
+  
+
+  drawGrafics() {  
+    const points = this._pointsModel.getPoints();
+    console.log(points)
     const moneyCtx = this._statsComponent.getElement().querySelector('#money');
     const typeCtx = this._statsComponent.getElement().querySelector('#type');
     const timeCtx = this._statsComponent.getElement().querySelector('#time-spend');
-
-    const points = this._pointsModel.getPoints();
-    
-    // Рассчитаем высоту канваса в зависимости от того, сколько данных в него будет передаваться
 
     const BAR_HEIGHT = 55;
     moneyCtx.height = BAR_HEIGHT * 5;
     typeCtx.height = BAR_HEIGHT * 5;
     timeCtx.height = BAR_HEIGHT * 5;
 
-    const moneyChart = new Chart(moneyCtx, {
+    this._moneyChart = new Chart(moneyCtx, {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {
@@ -87,8 +88,8 @@ export default class StatsPresenter {
         },
       },
     });
-
-    const typeChart = new Chart(typeCtx, {
+  
+    this._typeChart = new Chart(typeCtx, {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {
@@ -129,8 +130,8 @@ export default class StatsPresenter {
         },
       },
     });
-
-    const timeChart = new Chart(timeCtx, {
+  
+    this._timeChart = new Chart(timeCtx, {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {
@@ -173,4 +174,9 @@ export default class StatsPresenter {
     });
   }
 
+  destroyChart() {
+    this._moneyChart.destroy();
+    this._typeChart.destroy();
+    this._timeChart.destroy();
+  }
 }

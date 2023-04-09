@@ -28,6 +28,11 @@ const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, fil
 boardPresenter.init(points);
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', () => {
+  statsPresenter.destroyChart();
+  statsPresenter.hide();
+  boardPresenter.show();
+  tableBtn.classList.add('trip-tabs__btn--active');
+  statsBtn.classList.remove('trip-tabs__btn--active');
   boardPresenter.createPoint();
 })
 
@@ -35,6 +40,7 @@ const statsPresenter = new StatsPresenter(pointsModel);
 
 const tableBtn = siteBodyElement.querySelector('.btn__table');
 tableBtn.addEventListener('click', () => {
+  statsPresenter.destroyChart();
   statsPresenter.hide();
   boardPresenter.show();
   tableBtn.classList.add('trip-tabs__btn--active');
@@ -44,6 +50,7 @@ tableBtn.addEventListener('click', () => {
 const statsBtn = siteBodyElement.querySelector('.btn__stats');
 statsBtn.addEventListener('click', () => {
   statsPresenter.init();
+  statsPresenter.drawGrafics();
   statsPresenter.show();
   boardPresenter.hide();
   statsBtn.classList.add('trip-tabs__btn--active');

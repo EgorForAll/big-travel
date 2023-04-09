@@ -89,6 +89,7 @@ export default class Board {
 
   _handleViewAction(actionType, UpdateType, update) {
 
+    console.log(this._pointModel.getPoints())
     switch (actionType) {
     case UserAction.UPDATE_POINT:
       this._pointModel.updatePoint(UpdateType, update);

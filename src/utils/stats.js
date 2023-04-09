@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import { generateRandomPoint } from "../mock/point";
 
 export const createPriceArray = (points) => {
   return {
@@ -80,5 +79,3 @@ export const createTimeArray = (points) => {
     Restaurant: sumTime(points, 'Restaurant')
   }
 };
-
-

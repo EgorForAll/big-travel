@@ -47,7 +47,6 @@ export default class PointsModel extends Observer {
     }
 
     this._points.splice(index, 1);
-    console.log(this._points)
     this._notify(updateType);
   }
 }

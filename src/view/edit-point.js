@@ -293,7 +293,7 @@ export default class PointEditForm extends Smart {
     }
 
     this.updateData({
-      price: evt.target.value
+      price: Number(evt.target.value)
     })
   }
 
@@ -331,7 +331,7 @@ export default class PointEditForm extends Smart {
   _onDateFromChange(userInput) {
     if(compareTwoDates(this._pointState.date_to, userInput) > 0) {
       this.updateData({
-        date_from: userInput,
+        date_from: new Date(userInput),
         });
     }  
   }
@@ -340,7 +340,7 @@ export default class PointEditForm extends Smart {
   _onDateToChange(userInput) {
     if(compareTwoDates(userInput, this._pointState.date_from) > 0) {
       this.updateData({
-        date_to: userInput,
+        date_to: userInput[userInput.length - 1],
     });
     }
   }
