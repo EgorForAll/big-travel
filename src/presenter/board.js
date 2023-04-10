@@ -17,10 +17,12 @@ import { sortByPrice, sortByTime, sortByDay} from "../utils/point";
 const siteMain = document.querySelector('.trip-main');
 
 export default class Board {
-  constructor(boardContainer, pointModel, filterModel) {
+  constructor(boardContainer, pointModel, filterModel, offerModel, destinationsModel, api) {
     this._boardContainer = boardContainer;
     this._pointModel = pointModel;
     this._filterModel = filterModel;
+    this._offerModel = offerModel;
+    this._destinationModel = destinationsModel;
     this._isLoading = true;
     this._sortComponent = null;
     this._pointComponent = new PointView();
@@ -28,6 +30,7 @@ export default class Board {
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
     this._loadingComponent = new LoadingView();
+    this._api = api;
 
     this._handlePointChange = this._handlePointChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -44,7 +47,6 @@ export default class Board {
   _getPoints() {
     const filterType = this._filterModel.getFilter();
     const points = this._pointModel.getPoints();
-    console.log(points)
     const filtredPoints = pointsToFilterMap[filterType](points);
 
     switch (this._currentSortType) {
@@ -93,10 +95,12 @@ export default class Board {
 
   _handleViewAction(actionType, UpdateType, update) {
 
-    console.log(this._pointModel.getPoints())
     switch (actionType) {
     case UserAction.UPDATE_POINT:
       this._pointModel.updatePoint(UpdateType, update);
+      this._api.updatePoint(update).then((response) => {
+        this._pointModel.updatePoint(UpdateType, response);
+      });
       break;
     case UserAction.ADD_POINT:
       this._pointModel.addPoint(UpdateType, update);
@@ -120,7 +124,7 @@ export default class Board {
         this._clearBoard({resetSortType: true});
         this._renderBoard();
         break;
-      case UpdateType.INIT:
+      case UpdateType.INIT_POINTS:
         this._isLoading = false;
         remove(this._loadingComponent);
         this._renderBoard();

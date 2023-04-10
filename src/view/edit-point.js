@@ -131,15 +131,15 @@ const createEventDescriptionTemplate = (destination) => {
 }
 
 const createOffersEditTemplate = (offers) => {
-  return offers.length > 0 ? `
-    <section class="event__section  event__section--offers">
-      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+  if (offers.length > 0) {
+    return  `  <section class="event__section  event__section--offers">
+    <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
-      <div class="event__available-offers">                   
-        ${offers.map((element) => createOfferSelectorTemplate(element)).join('')}
-      </div>
-    </section>` : '';
-
+    <div class="event__available-offers">                   
+      ${offers.map((element) => createOfferSelectorTemplate(element)).join('')}
+    </div>
+  </section>`
+  }
 }
 
 const createEditPointTemplate = (point = EMPTY_POINT) => {
@@ -250,16 +250,12 @@ export default class PointEditForm extends Smart {
     }
     this.updateData({
       type: evt.target.value,
-      offer: pickElementDependOnValue(evt.target.value, OFFER_OPTIONS),
-      image: checkPng((evt.target.value).toLowerCase(), PNG)
+      offer: pickElementDependOnValue(evt.target.value, OFFER_OPTIONS)
     })
   }
 
   _onPointInput(evt) {
     evt.preventDefault()
-    if (!CITIES.includes(evt.target.value)) {
-      return;
-    }
 
     this.updateData({
       destination: Object.assign(
@@ -281,7 +277,6 @@ export default class PointEditForm extends Smart {
 
   _onPointPriceInput(evt) {
     evt.preventDefault()
-    console.log(typeof evt.target.value)
 
     if (evt.target.value < 0) {
       return

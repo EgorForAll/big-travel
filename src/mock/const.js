@@ -6,7 +6,16 @@ const UserAction = {
   DELETE_POINT: 'DELETE_POINT',
 };
 
+const DATA_TYPE = {
+  DESTINATIONS: 'destinations',
+  POINT: 'points',
+  OFFERS: 'offers'
+}
+
 const UpdateType = {
+  INIT_DESTINATIONS: 'init_destinations',
+  INIT_POINTS: 'init_points',
+  INIT_OFFERS: 'init_offers',
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
@@ -170,4 +179,4 @@ const OFFER_OPTIONS = {
 }
 
 
-export { TYPE, DESCS, CITIES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS, UserAction, UpdateType, FilterType}
+export { TYPE, DESCS, CITIES, PNG, FORM_DATE_FORMAT_ONE, SortType, OFFER_OPTIONS, UserAction, UpdateType, FilterType, DATA_TYPE}

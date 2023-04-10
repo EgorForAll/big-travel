@@ -1,4 +1,5 @@
 import PointsModel from "./model/point";
+import { DATA_TYPE } from "./mock/const";
 
 const Method = {
     GET: 'GET',
@@ -16,20 +17,26 @@ const Method = {
       this._authorization = authorization;
     }
   
-    getPoints() {
-      return this._load({url: 'points'})
-        .then(Api.toJSON)
-        .then((points) => points.map(PointsModel.adaptToClient));
+    getData(dataType) {
+      if (dataType === DATA_TYPE.POINT) {
+        return this._load({url: dataType})
+          .then(Api.toJSON)
+          .then((points) => points.map(PointsModel.adaptToClient));
+      }
+
+      return this._load({url: dataType}).then((response) => response.json());
     }
+  
   
     updatePoint(point) {
       return this._load({
-        url: `points/${point.id}`,
+        url: `${DATA_TYPE.POINT}/${point.id}`,
         method: Method.PUT,
         body: JSON.stringify(PointsModel.adaptToServer(point)),
         headers: new Headers({'Content-Type': 'application/json'}),
       })
-        .then(Api.toJSON);
+        .then(Api.toJSON)
+        .then(PointsModel.adaptToClient())
     }
   
     _load({

@@ -8,18 +8,23 @@ export default class NewPointPresenter {
     this._pointListContainer = container;
     this._changeData = changeData;
     this._pointEditComponent = null;
+    this._offers = null;
+    this._destination = null;
 
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._handleDeleteClick = this._handleDeleteClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init() {
+  init(offers, destinations) {
+    this._offers = offers;
+    this._destination = destinations;
+
     if (this._pointEditComponent !== null) {
       return;
     }
 
-    this._pointEditComponent = new PointEditForm();
+    this._pointEditComponent = new PointEditForm(this._offers, this._destination);
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._pointEditComponent.setDeleteClickHandler(this._handleDeleteClick);
     this._pointEditComponent.hideEditFormClickHandler(this._handleDeleteClick);

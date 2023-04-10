@@ -1,5 +1,4 @@
 import Observer from "../utils/observer";
-import { UpdateType } from "../mock/const";
 
 export default class PointsModel extends Observer {
   constructor() {

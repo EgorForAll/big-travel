@@ -1,6 +1,8 @@
 import { render, RenderPosition } from "./utils/render";
-import { UpdateType } from "./mock/const";
+import { UpdateType, DATA_TYPE } from "./mock/const";
 import PointsModel from "./model/point";
+import OffersModel from "./model/offers";
+import DestinationModel from "./model/destinations";
 import MainMenuView from './view/main-menu';
 import BoardPresenter from "./presenter/board";
 import FilterModel from "./model/filter";
@@ -14,6 +16,8 @@ const END_POINT = 'https://14.ecmascript.pages.academy/big-trip';
 const api = new Api(END_POINT, AUTHORIZATION);
 
 const pointsModel = new PointsModel();
+const offersModel = new OffersModel();
+const destinationsModel = new DestinationModel();
 
 const filterModel = new FilterModel();
 
@@ -23,10 +27,8 @@ const siteMenuElement = siteBodyElement.querySelector('.trip-controls__navigatio
 render(siteMenuElement, new MainMenuView(), RenderPosition.BEFOREEND);
 
 const siteFilterElement = siteBodyElement.querySelector('.trip-controls__filters');
-const filterPresenter = new FilterPresenter(siteFilterElement, filterModel, pointsModel);
-filterPresenter.init();
 
-const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel);
+const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel, api);
 boardPresenter.init(pointsModel.getPoints());
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', () => {
@@ -59,10 +61,33 @@ statsBtn.addEventListener('click', () => {
   tableBtn.classList.remove('trip-tabs__btn--active');
 })
 
-api.getPoints()
-  .then((points) => {
-    pointsModel.setPoints(UpdateType.INIT, points);
+const filterPresenter = new FilterPresenter(siteFilterElement, filterModel, pointsModel);
+filterPresenter.init();
+
+// Получаем точки маршрута с сервера
+api.getData(DATA_TYPE.POINT)
+  .then((response) => {
+    pointsModel.setPoints(UpdateType.INIT_POINTS, response);
+
   })
   .catch(() => {
-    pointsModel.setPoints(UpdateType.INIT, []);
+    pointsModel.setPoints(UpdateType.INIT_POINTS, []);
+  });
+
+  // Получаем офферы с сервера
+api.getData(DATA_TYPE.OFFERS)
+  .then((response) => {
+    offersModel.setOffers(UpdateType.INIT_OFFERS, response);
+  })
+  .catch(() => {
+    offersModel.setOffers((UpdateType.INIT_OFFERS, []));
+  });
+
+  // Получаем направления с сервера
+api.getData(DATA_TYPE.DESTINATIONS)
+  .then((response) => {
+    destinationsModel.setDestinations(UpdateType.INIT_DESTINATIONS, response);
+  })
+  .catch(() => {
+    destinationsModel.setDestinations((UpdateType.INIT_DESTINATIONS, []));
   });
