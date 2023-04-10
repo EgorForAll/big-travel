@@ -1,5 +1,5 @@
 import { FORM_DATE_FORMAT_ONE, CITIES, DESCS, OFFER_OPTIONS, PNG} from "../mock/const";
-import { EMPTY_POINT } from "../mock/point";
+import { EMPTY_POINT } from "../utils/point";
 import { pickElementDependOnValue, compareTwoDates } from "../utils/point";
 import Smart from "./smart";
 import { checkPng, getRandomInteger } from "../utils/common";

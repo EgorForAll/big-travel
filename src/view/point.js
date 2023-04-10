@@ -1,5 +1,5 @@
 import { PNG } from "../mock/const";
-import { EMPTY_POINT } from "../mock/point";
+import { EMPTY_POINT } from "../utils/point";
 import { checkPng } from "../utils/common";
 import { getDifferanceTime } from "../utils/point";
 import Abstract from "./abstract";

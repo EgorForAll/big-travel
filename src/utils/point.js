@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import { generateDate, getRandomArr, getRandomInteger } from "./common";
+import { TYPE, DESCS, CITIES, PNG, OFFER_OPTIONS} from "../mock/const";
 
 // Фильтры
 const today = new Date();
@@ -94,4 +96,33 @@ export const getDifferanceTime = (dateFrom, dateTo) => {
   const mm = Math.floor(diff / 1000 / 60);
 
   return `${hh}H ${mm}M`
+}
+
+const dateForEmptyPoint = generateDate()
+
+export const EMPTY_POINT = {
+  type: TYPE[0],
+  price: 0,
+  date_from: dateForEmptyPoint.dateFrom,
+  date_to: dateForEmptyPoint.dateTo,
+  is_favorite: false,
+  destination: {
+    description: getRandomArr(DESCS),
+    name: getRandomArr(CITIES),
+    pictures: [
+          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
+      ]
+    },
+  get differenceTime() {
+    return getDifferanceTime(this.date_from, this.date_to);
+  },
+  get image() {
+    return PNG[7];
+  },
+  get offer() {
+    return pickElementDependOnValue(this.type, OFFER_OPTIONS)
+  }
 }
