@@ -30,7 +30,7 @@ const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, fil
 boardPresenter.init(pointsModel.getPoints());
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', () => {
-  statsPresenter.destroyChart();
+  statsPresenter.statsComponent === null ?  null : statsPresenter.destroyChart();
   statsPresenter.hide();
   boardPresenter.show();
   tableBtn.classList.add('trip-tabs__btn--active');

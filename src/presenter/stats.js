@@ -10,37 +10,39 @@ const sitePageBodyContainer = siteBodyElement.querySelector('.page-main__contain
 
 export default class StatsPresenter {
   constructor(pointModel) {
-    this._statsComponent = null;
+    this.statsComponent = null;
     this._pointsModel = pointModel;
     
   }
 
   init() {
-    if (this._statsComponent !== null) {
+    if (this.statsComponent !== null) {
       return;
     }
 
-    this._statsComponent = new StatsView();
+    this.statsComponent = new StatsView();
     
-    render(sitePageBodyContainer, this._statsComponent.getElement(), RenderPosition.BEFOREEND);
+    render(sitePageBodyContainer, this.statsComponent.getElement(), RenderPosition.BEFOREEND);
   }
 
   show() {
-    this._statsComponent.show();
+    this.statsComponent.show();
   }
 
   hide() {
-    this._statsComponent.hide();
+    if (this.statsComponent === null) {
+      return;
+    }
+    this.statsComponent.hide();
   }
 
   
 
   drawGrafics() {  
     const points = this._pointsModel.getPoints();
-    console.log(points)
-    const moneyCtx = this._statsComponent.getElement().querySelector('#money');
-    const typeCtx = this._statsComponent.getElement().querySelector('#type');
-    const timeCtx = this._statsComponent.getElement().querySelector('#time-spend');
+    const moneyCtx = this.statsComponent.getElement().querySelector('#money');
+    const typeCtx = this.statsComponent.getElement().querySelector('#type');
+    const timeCtx = this.statsComponent.getElement().querySelector('#time-spend');
 
     const BAR_HEIGHT = 55;
     moneyCtx.height = BAR_HEIGHT * 5;
