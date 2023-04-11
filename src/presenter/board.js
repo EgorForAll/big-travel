@@ -98,9 +98,9 @@ export default class Board {
     switch (actionType) {
     case UserAction.UPDATE_POINT:
       this._pointModel.updatePoint(UpdateType, update);
-      this._api.updatePoint(update).then((response) => {
-        this._pointModel.updatePoint(UpdateType, response);
-      });
+      this._api.updatePoint(update);
+      this._pointModel.updatePoint(UpdateType, update);
+      console.log(this._pointModel.getPoints())
       break;
     case UserAction.ADD_POINT:
       this._pointModel.addPoint(UpdateType, update);

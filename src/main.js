@@ -28,7 +28,7 @@ render(siteMenuElement, new MainMenuView(), RenderPosition.BEFOREEND);
 
 const siteFilterElement = siteBodyElement.querySelector('.trip-controls__filters');
 
-const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel, api);
+const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel, offersModel, destinationsModel, api);
 boardPresenter.init(pointsModel.getPoints());
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', () => {
@@ -68,7 +68,7 @@ filterPresenter.init();
 api.getData(DATA_TYPE.POINT)
   .then((response) => {
     pointsModel.setPoints(UpdateType.INIT_POINTS, response);
-
+    console.log(pointsModel.getPoints())
   })
   .catch(() => {
     pointsModel.setPoints(UpdateType.INIT_POINTS, []);

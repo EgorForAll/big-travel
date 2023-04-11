@@ -65,7 +65,7 @@ export default class PointsModel extends Observer {
     );
 
     // Ненужные ключи мы удаляем
-    delete adaptedPoint.base_date;
+    delete adaptedPoint.base_price;
     delete adaptedPoint.offers;
 
     return adaptedPoint;
@@ -76,8 +76,8 @@ export default class PointsModel extends Observer {
       {},
       point,
       {
-        base_price: point.price,
-        offers: point.offer
+        'base_price': point.price,
+        'offers': point.offer
       },
     );
 

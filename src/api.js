@@ -36,7 +36,7 @@ const Method = {
         headers: new Headers({'Content-Type': 'application/json'}),
       })
         .then(Api.toJSON)
-        .then(PointsModel.adaptToClient())
+        .then(PointsModel.adaptToClient(point))
     }
   
     _load({
