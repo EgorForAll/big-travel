@@ -6,6 +6,7 @@ import TripCostView from "../view/trip-cost";
 import PointsListView from "../view/list";
 import Point from "./point";
 import NewPointPresenter from "./point-new";
+import ErrorView from "../view/error";
 import EmptyList from "../view/list-empty";
 import LoadingView from '../view/loading';
 import { pointsToFilterMap } from "../mock/filter";
@@ -30,6 +31,7 @@ export default class Board {
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
     this._loadingComponent = new LoadingView();
+    this._errorComponent = new ErrorView();
     this._api = api;
 
     this._handlePointChange = this._handlePointChange.bind(this);
@@ -176,6 +178,7 @@ export default class Board {
   }
 
   _renderBoard() {
+
     if (this._isLoading) {
       this._renderLoading();
       return;

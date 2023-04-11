@@ -1,5 +1,8 @@
 import PointsModel from "./model/point";
 import { DATA_TYPE } from "./mock/const";
+import { siteTripBoardElement } from "./main";
+import { RenderPosition, render } from "./utils/render";
+import ErrorView from "./view/error";
 
 const Method = {
     GET: 'GET',
@@ -15,6 +18,7 @@ const Method = {
     constructor(endPoint, authorization) {
       this._endPoint = endPoint;
       this._authorization = authorization;
+      this._errorComponent = new ErrorView();
     }
   
     getData(dataType) {
@@ -71,6 +75,7 @@ const Method = {
     }
   
     static catchError(err) {
+      // render(siteTripBoardElement, this._errorComponent, RenderPosition.AFTERBEGIN)
       throw err;
     }
   }

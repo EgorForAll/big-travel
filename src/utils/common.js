@@ -29,9 +29,10 @@ const generateDate = () => {
 
 // Поиск картинки по типу
 const checkPng = (type, png) => {
+  let typeLower = type.toLowerCase();
   for (let item of png) {
     let path = item.slice(10, -4);
-    if (type === path) {
+    if (typeLower === path) {
       return item;
     }
   }

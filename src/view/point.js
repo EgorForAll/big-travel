@@ -13,7 +13,7 @@ const createOfferTemplate = (element) => {
                   </li>`
 }
 
-const createPointTemplate = (point = EMPTY_POINT) => {
+const createPointTemplate = (point) => {
 
   const image = checkPng(point.type, PNG);
   const timeDuration = getDifferanceTime(point.date_from, point.date_to);
@@ -54,7 +54,7 @@ const createPointTemplate = (point = EMPTY_POINT) => {
 }
 
 export default class PointView extends Abstract {
- constructor(point = EMPTY_POINT) {
+ constructor(point) {
   super()
   this._point = point;
 

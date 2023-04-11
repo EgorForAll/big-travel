@@ -142,7 +142,7 @@ const createOffersEditTemplate = (offers) => {
   }
 }
 
-const createEditPointTemplate = (point = EMPTY_POINT) => {
+const createEditPointTemplate = (point) => {
   const image = checkPng(point.type, PNG);
   const eventTypeImageField = createEditEventTypeTemplate(image);
   const eventDestinationField = createEventDestinationTemplate(point.type, point.destination.name, point.id);

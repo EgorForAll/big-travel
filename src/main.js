@@ -22,7 +22,7 @@ const destinationsModel = new DestinationModel();
 const filterModel = new FilterModel();
 
 const siteBodyElement = document.querySelector('.page-body');
-const siteTripBoardElement = siteBodyElement.querySelector('.trip-events');
+export const siteTripBoardElement = siteBodyElement.querySelector('.trip-events');
 const siteMenuElement = siteBodyElement.querySelector('.trip-controls__navigation');
 render(siteMenuElement, new MainMenuView(), RenderPosition.BEFOREEND);
 
