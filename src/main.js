@@ -28,9 +28,6 @@ render(siteMenuElement, new MainMenuView(), RenderPosition.BEFOREEND);
 
 const siteFilterElement = siteBodyElement.querySelector('.trip-controls__filters');
 
-const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel, offersModel, destinationsModel, api);
-boardPresenter.init(pointsModel.getPoints());
-
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', () => {
   statsPresenter.statsComponent === null ?  null : statsPresenter.destroyChart();
   statsPresenter.hide();
@@ -91,3 +88,6 @@ api.getData(DATA_TYPE.DESTINATIONS)
   .catch(() => {
     destinationsModel.setDestinations((UpdateType.INIT_DESTINATIONS, []));
   });
+
+const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel, offersModel, destinationsModel, api);
+boardPresenter.init(pointsModel.getPoints());

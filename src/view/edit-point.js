@@ -1,6 +1,6 @@
-import { FORM_DATE_FORMAT_ONE, CITIES, DESCS, OFFER_OPTIONS, PNG} from "../mock/const";
+import { FORM_DATE_FORMAT_ONE, CITIES, DESCS, PNG} from "../mock/const";
 import { EMPTY_POINT } from "../utils/point";
-import { pickElementDependOnValue, compareTwoDates } from "../utils/point";
+import { compareTwoDates,pickOffersDependOnType } from "../utils/point";
 import Smart from "./smart";
 import { checkPng, getRandomInteger } from "../utils/common";
 import flatpickr from 'flatpickr';
@@ -52,12 +52,12 @@ const createEditEventTypeTemplate = (currentTypeImage) => {
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Checkin">
+                  <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Check-in">
                   <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
                 </div>
 
                 <div class="event__type-item">
-                  <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Sightseeng">
+                  <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="Sightseeing">
                   <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
                 </div>
 
@@ -100,8 +100,7 @@ const createEventPriceTemplate = (price) => {
           <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value=${price}>`;
 }
 
-const createOfferSelectorTemplate = (item) => {
-
+const createOfferSelectorTemplate = (item) => { 
   return `
         <div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" >
@@ -111,7 +110,7 @@ const createOfferSelectorTemplate = (item) => {
             <span class="event__offer-price">${item.price}</span>
           </label>
         </div>
-  `
+  `;
 }
 
 const createEventDescriptionTemplate = (destination) => {
@@ -131,15 +130,14 @@ const createEventDescriptionTemplate = (destination) => {
 }
 
 const createOffersEditTemplate = (offers) => {
-  if (offers.length > 0) {
-    return  `  <section class="event__section  event__section--offers">
+  return offers.length > 0 ?
+    `  <section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
     <div class="event__available-offers">                   
       ${offers.map((element) => createOfferSelectorTemplate(element)).join('')}
     </div>
-  </section>`
-  }
+  </section>` : '';
 }
 
 const createEditPointTemplate = (point) => {
@@ -183,11 +181,13 @@ const createEditPointTemplate = (point) => {
 }
 
 export default class PointEditForm extends Smart {
-   constructor(pointData = EMPTY_POINT) {
+   constructor(pointData = EMPTY_POINT, offersModel, destinationsModel) {
     super();
     this._pickerStartDate = null;
     this._pickerEndDate = null;
-    this._pointState = PointEditForm.parsePointDataToState(pointData)
+    this._pointState = PointEditForm.parsePointDataToState(pointData);
+    this._offersModel = offersModel;
+    this._destinationModel = destinationsModel;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._formClickHandler = this._formClickHandler.bind(this);
@@ -250,7 +250,7 @@ export default class PointEditForm extends Smart {
     }
     this.updateData({
       type: evt.target.value,
-      offer: pickElementDependOnValue(evt.target.value, OFFER_OPTIONS)
+      offer: pickOffersDependOnType(evt.target.value.toLowerCase(), this._offersModel.getOffers())
     })
   }
 

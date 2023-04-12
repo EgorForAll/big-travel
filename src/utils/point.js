@@ -87,6 +87,10 @@ export const pickElementDependOnValue = (value, elementValueDependency) =>
   return (dateA === null && dateB === null) ? true : dayjs(dateA).isSame(dateB, 'D');
 };
 
+export const pickOffersDependOnType = (type, offers) => {
+  const value = offers.find((item) => item.type === type);
+  return typeof value === 'undefined' ? [] : value.offers;
+}
 export const getDifferanceTime = (dateFrom, dateTo) => {
 
   let diff = Math.floor(dateTo.getTime() - dateFrom.getTime());

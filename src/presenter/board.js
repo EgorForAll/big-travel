@@ -63,6 +63,10 @@ export default class Board {
     return filtredPoints;
   }
 
+  _getOffers() {
+    return this._offerModel.getOffers();
+  }
+
   init() {
     render(this._boardContainer, this._pointsListComponent, RenderPosition.BEFOREEND);
     this._renderBoard();
@@ -102,7 +106,6 @@ export default class Board {
       this._pointModel.updatePoint(UpdateType, update);
       this._api.updatePoint(update);
       this._pointModel.updatePoint(UpdateType, update);
-      console.log(this._pointModel.getPoints())
       break;
     case UserAction.ADD_POINT:
       this._pointModel.addPoint(UpdateType, update);
@@ -160,7 +163,7 @@ export default class Board {
   }
 
   _renderPoint(point) {
-  const pointPresenter = new Point(this._pointsListComponent, this._handleViewAction, this._handleModeChange);
+  const pointPresenter = new Point(this._pointsListComponent, this._handleViewAction, this._handleModeChange, this._offerModel, this._destinationModel);
   pointPresenter.init(point);
   this._pointPresenter[point.id] = pointPresenter;
   }
