@@ -88,8 +88,9 @@ export default class Point {
   }
 
   _handleFavoriteClick() {
+    console.log('yes')
     this._changeData(
-      UserAction.UPDATE_TASK,
+      UserAction.UPDATE_POINT,
       UpdateType.MINOR,
       Object.assign(
         {},

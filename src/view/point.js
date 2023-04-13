@@ -1,8 +1,7 @@
 import { PNG } from "../mock/const";
-import { EMPTY_POINT } from "../utils/point";
 import { checkPng } from "../utils/common";
 import { getDifferanceTime } from "../utils/point";
-import Abstract from "./abstract";
+import Smart from "./smart";
 import dayjs from "dayjs";
 
 const createOfferTemplate = (element) => {
@@ -53,10 +52,11 @@ const createPointTemplate = (point) => {
             </li>`;
 }
 
-export default class PointView extends Abstract {
+export default class PointView extends Smart {
  constructor(point) {
   super()
   this._point = point;
+  this._isFavorite = point.is_favorite;
 
   this._showFormHandler = this._showFormHandler.bind(this);
   this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
@@ -76,12 +76,15 @@ export default class PointView extends Abstract {
  }
 
   _favoriteClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.favoriteClick();
+    if (evt.target.tagName !== 'BUTTON') {
+      return;
+    }
+    this._callback.deleteClick();
   }
 
   setFavoriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
-    this.getElement().querySelector('.event__favorite-btn').addEventListener('click', this._favoriteClickHandler);
+    this.getElement().querySelector('.event__favorite-btn').addEventListener('click', callback);
   }
+
 }

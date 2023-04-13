@@ -31,6 +31,6 @@ export default class Smart extends Abstract {
   }
 
   restoreListenners() {
-    throw new Error ('Abstract methos is not implemented: restoreListenners');
+    throw new Error ('Abstract methods is not implemented: restoreListenners');
   }
 }

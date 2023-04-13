@@ -26,7 +26,7 @@ export default class Board {
     this._destinationModel = destinationsModel;
     this._isLoading = true;
     this._sortComponent = null;
-    this._pointComponent = new PointView();
+    this._pointComponent = new PointView(this._pointModel.getPoints());
     this._pointEditComponent = new PointEditForm();
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();

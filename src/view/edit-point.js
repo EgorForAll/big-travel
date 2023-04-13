@@ -299,6 +299,8 @@ export default class PointEditForm extends Smart {
     this.getElement().querySelector('.event__input--destination').addEventListener('change', this._onPointInput);
     this.getElement().querySelector('.event__type-group').addEventListener('change', this._onPointTypeChange);
     this.getElement().querySelector('#event-price-1').addEventListener('change', this._onPointPriceInput);
+    this.getElement().querySelector('#event-start-time-1').addEventListener('change', this._onDateFromChange);
+    this.getElement().querySelector('#event-end-time-1').addEventListener('change', this._onDateToChange);
   }
 
   _setDatePicker(datePicker) {
