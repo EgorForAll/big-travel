@@ -78,7 +78,9 @@ export default class PointsModel extends Observer {
       {
         'base_price': point.price,
         'offers': point.offer,
-        type: point.type.toLowerCase()
+        type: point.type.toLowerCase(),
+        date_from: point.date_from.toISOString(),
+        date_to: point.date_to.toISOString()
       },
     );
 

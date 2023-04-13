@@ -80,7 +80,7 @@ api.getData(DATA_TYPE.OFFERS)
     offersModel.setOffers((UpdateType.INIT_OFFERS, []));
   });
 
-  // Получаем направления с сервера
+  // Получаем направления с сервераS
 api.getData(DATA_TYPE.DESTINATIONS)
   .then((response) => {
     destinationsModel.setDestinations(UpdateType.INIT_DESTINATIONS, response);
@@ -88,6 +88,7 @@ api.getData(DATA_TYPE.DESTINATIONS)
   .catch(() => {
     destinationsModel.setDestinations((UpdateType.INIT_DESTINATIONS, []));
   });
-
+  
 const boardPresenter = new BoardPresenter(siteTripBoardElement, pointsModel, filterModel, offersModel, destinationsModel, api);
+
 boardPresenter.init(pointsModel.getPoints());

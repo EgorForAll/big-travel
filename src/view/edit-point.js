@@ -140,7 +140,7 @@ const createOffersEditTemplate = (offers) => {
   </section>` : '';
 }
 
-const createEditPointTemplate = (point) => {
+const createEditPointTemplate = (point, destinationModel) => {
   const image = checkPng(point.type, PNG);
   const eventTypeImageField = createEditEventTypeTemplate(image);
   const eventDestinationField = createEventDestinationTemplate(point.type, point.destination.name, point.id);
@@ -218,8 +218,12 @@ export default class PointEditForm extends Smart {
     )
   }
 
+  _getDestinations() {
+    return this._destinationModel;
+  }
+
   getTemplate() {
-    return createEditPointTemplate(this._pointState);
+    return createEditPointTemplate(this._pointState, this._destinationModel);
   }
 
   removeElement() {

@@ -4,15 +4,15 @@ export default class DestinationModel extends Observer {
 
     constructor() {
         super();
-        this.destinations = [];
+        this._destinations = [];
     }
 
     setDestinations(updateType, destinations) {
-        this.destinations = destinations
+        this._destinations = destinations
         this._notify(updateType);
     }
 
     getDestinations() {
-        return this.destinations;
+        return this._destinations;
     }
 }
