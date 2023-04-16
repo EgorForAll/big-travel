@@ -91,6 +91,16 @@ export const pickOffersDependOnType = (type, offers) => {
   const value = offers.find((item) => item.type === type);
   return typeof value === 'undefined' ? [] : value.offers;
 }
+
+export const pickDescDependOnName = (name, descs) => {
+  const value = descs.find((item) => item.name === name);
+  return typeof value === 'undefined' ? [] : value.description;
+}
+
+export const pickPhotosDependOnName = (name, destiantions) => {
+  const value = destiantions.find((item) => item.name === name);
+  return typeof value === 'undefined' ? [] : value.pictures;
+}
 export const getDifferanceTime = (dateFrom, dateTo) => {
 
   let diff = Math.floor(dateTo.getTime() - dateFrom.getTime());

@@ -1,6 +1,5 @@
 import { FORM_DATE_FORMAT_ONE, CITIES, DESCS, PNG} from "../mock/const";
-import { EMPTY_POINT } from "../utils/point";
-import { compareTwoDates,pickOffersDependOnType } from "../utils/point";
+import { compareTwoDates,pickOffersDependOnType, pickDescDependOnName, EMPTY_POINT, pickPhotosDependOnName } from "../utils/point";
 import Smart from "./smart";
 import { checkPng, getRandomInteger } from "../utils/common";
 import flatpickr from 'flatpickr';
@@ -70,17 +69,43 @@ const createEditEventTypeTemplate = (currentTypeImage) => {
             `;
 }
 
-const createDestinationOptionsTemplate = (cities) => {
-  return cities.map((item) => `<option value=${item}></option>`).join('');
+const createDestinationOptionsTemplate = () => {
+  return  `<option value="Chamonix"></option>
+    <option value="Geneva"></option>
+    <option value=""></option>
+    <option value="Amseradam"></option>
+    <option value="Helsinki"></option>
+    <option value="Oslo"></option>
+    <option value="Kopenhagen"></option>
+    <option value="Den Haag"></option>
+    <option value="Roterrdam"></option>
+    <option value="Saint-Petersburg"></option>
+    <option value="Moscow"></option>
+    <option value="Sochi"></option>
+    <option value="Tokio"></option>
+    <option value="Kioto"></option>
+    <option value="Nagasaki"></option>
+    <option value="Hiroshima"></option>
+    <option value="Berlin"></option>
+    <option value="Munich"></option>
+    <option value="Frankfurt"></option>
+    <option value="Vien"></option>
+    <option value="Rome"></option>
+    <option value="Naples"></option>
+    <option value="Venice"></option>
+    <option value="Milan"></option>
+    <option value="Paris"></option>
+    <option value="Barcelona"></option>
+    <option value="Madrid"></option>
+    <option value="Valencia"></option>`
 }
 
-const createEventDestinationTemplate = (type, city, id) => {
-
+const createEventDestinationTemplate = (type, city, destinations) => {
   return `
-          <label class="event__label  event__type-output" for="event-destination-${id}">${type}</label>
-          <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value=${city} list="destination-list-${id}">
-          <datalist id="destination-list-${id}">
-            ${createDestinationOptionsTemplate(CITIES)}
+          <label class="event__label  event__type-output" for="event-destination-1">${type}</label>
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${city} list="destination-list-1">
+          <datalist id="destination-list-1">
+            ${createDestinationOptionsTemplate(CITIES, destinations)}
           </datalist>`;
 }
 
@@ -140,11 +165,11 @@ const createOffersEditTemplate = (offers) => {
   </section>` : '';
 }
 
-const createEditPointTemplate = (point, destinationModel) => {
+const createEditPointTemplate = (point, destinations) => {
   const image = checkPng(point.type, PNG);
   const eventTypeImageField = createEditEventTypeTemplate(image);
-  const eventDestinationField = createEventDestinationTemplate(point.type, point.destination.name, point.id);
-  const eventDateField = createEventDateTemplate(point.date_from, point.date_to);
+  const eventDestinationField = createEventDestinationTemplate(point.type, point.destination.name, destinations);
+  const eventDateField = createEventDateTemplate(point.date_from, point.date_to)
   const eventPriceField = createEventPriceTemplate(point.price);
   const eventDescriptionsField = createEventDescriptionTemplate(point.destination);
   const offerSelectorsField = createOffersEditTemplate(point.offer);
@@ -218,10 +243,6 @@ export default class PointEditForm extends Smart {
     )
   }
 
-  _getDestinations() {
-    return this._destinationModel;
-  }
-
   getTemplate() {
     return createEditPointTemplate(this._pointState, this._destinationModel);
   }
@@ -260,20 +281,15 @@ export default class PointEditForm extends Smart {
 
   _onPointInput(evt) {
     evt.preventDefault()
-
+    console.log(this._destinationModel.getDestinations())
     this.updateData({
       destination: Object.assign(
         {},
         this._pointState.destination,
         {
           name: evt.target.value,
-          description:  DESCS[CITIES.indexOf(evt.target.value)],
-          pictures: [
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-            `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
-        ]
+          description:  pickDescDependOnName(evt.target.value, this._destinationModel.getDestinations()),
+          pictures: pickPhotosDependOnName(evt.target.value, this._destinationModel.getDestinations())
         }
       )
     })

@@ -65,7 +65,6 @@ filterPresenter.init();
 api.getData(DATA_TYPE.POINT)
   .then((response) => {
     pointsModel.setPoints(UpdateType.INIT_POINTS, response);
-    console.log(pointsModel.getPoints())
   })
   .catch(() => {
     pointsModel.setPoints(UpdateType.INIT_POINTS, []);
@@ -80,10 +79,11 @@ api.getData(DATA_TYPE.OFFERS)
     offersModel.setOffers((UpdateType.INIT_OFFERS, []));
   });
 
-  // Получаем направления с сервераS
+  // Получаем направления с сервера
 api.getData(DATA_TYPE.DESTINATIONS)
   .then((response) => {
     destinationsModel.setDestinations(UpdateType.INIT_DESTINATIONS, response);
+    console.log(destinationsModel.getDestinations())
   })
   .catch(() => {
     destinationsModel.setDestinations((UpdateType.INIT_DESTINATIONS, []));

@@ -13,7 +13,7 @@ import { pointsToFilterMap } from "../mock/filter";
 import { render,  RenderPosition, remove } from "../utils/render";
 import { UserAction, UpdateType } from "../mock/const";
 import { SortType, FilterType } from "../mock/const";
-import { sortByPrice, sortByTime, sortByDay} from "../utils/point";
+import { sortByPrice, sortByTime, sortByDay, EMPTY_POINT} from "../utils/point";
 
 const siteMain = document.querySelector('.trip-main');
 
@@ -27,7 +27,7 @@ export default class Board {
     this._isLoading = true;
     this._sortComponent = null;
     this._pointComponent = new PointView(this._pointModel.getPoints());
-    this._pointEditComponent = new PointEditForm();
+    this._pointEditComponent = new PointEditForm(EMPTY_POINT, this._destinationModel);
     this._pointsListComponent = new PointsListView();
     this._emptyListComponent = new EmptyList();
     this._loadingComponent = new LoadingView();
