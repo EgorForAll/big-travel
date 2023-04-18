@@ -1,8 +1,7 @@
 import PointsModel from "./model/point";
 import { DATA_TYPE } from "./mock/const";
-import { siteTripBoardElement } from "./main";
-import { RenderPosition, render } from "./utils/render";
 import ErrorView from "./view/error";
+import PointEditForm from "./view/edit-point";
 
 const Method = {
     GET: 'GET',
@@ -21,6 +20,7 @@ const Method = {
       this._endPoint = endPoint;
       this._authorization = authorization;
       this._errorComponent = new ErrorView();
+      this._pointEditForm = new PointEditForm();
     }
   
     getData(dataType) {
@@ -33,7 +33,17 @@ const Method = {
       return this._load({url: dataType}).then((response) => response.json());
     }
   
-  
+    createPoint(point) {
+      return this._load({
+        url: `${DATA_TYPE.POINT}`,
+        method: Method.POST,
+        body: JSON.stringify(PointsModel.adaptToServer(point)),
+        headers: new Headers({'Content-Type': 'application/json'}),
+      })
+        .then(Api.toJSON)
+        .then(PointsModel.adaptToClient(point))
+    }
+
     updatePoint(point) {
       return this._load({
         url: `${DATA_TYPE.POINT}/${point.id}`,

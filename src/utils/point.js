@@ -124,12 +124,24 @@ export const EMPTY_POINT = {
     description: getRandomArr(DESCS),
     name: getRandomArr(CITIES),
     pictures: [
-          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
-          `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,      
-      ]
-    },
+      {
+    src:  `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+    description: getRandomArr(CITIES)
+      },
+      {
+    src:  `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+    description: getRandomArr(CITIES)
+      },
+      {
+    src:  `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+    description: getRandomArr(CITIES)
+      },
+      {
+    src:  `http://picsum.photos/248/152?r=${getRandomInteger(1, 10)}`,
+    description: getRandomArr(CITIES)
+      },
+  ]
+  },
   get differenceTime() {
     return getDifferanceTime(this.date_from, this.date_to);
   },

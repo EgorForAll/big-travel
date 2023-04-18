@@ -100,14 +100,15 @@ export default class Board {
   }
 
   _handleViewAction(actionType, UpdateType, update) {
+    console.log(update)
 
     switch (actionType) {
     case UserAction.UPDATE_POINT:
-      this._pointModel.updatePoint(UpdateType, update);
       this._api.updatePoint(update);
       this._pointModel.updatePoint(UpdateType, update);
       break;
     case UserAction.ADD_POINT:
+      this._api.createPoint(update);
       this._pointModel.addPoint(UpdateType, update);
       break;
     case UserAction.DELETE_POINT:

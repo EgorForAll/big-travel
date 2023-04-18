@@ -292,7 +292,6 @@ export default class PointEditForm extends Smart {
         }
       )
     })
-    console.log(this._pointState)
   }
 
   _onPointPriceInput(evt) {
