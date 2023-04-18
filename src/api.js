@@ -7,6 +7,8 @@ import ErrorView from "./view/error";
 const Method = {
     GET: 'GET',
     PUT: 'PUT',
+    POST: 'POST',
+    DELETE: 'DELETE'
   };
   
   const SuccessHTTPStatusRange = {
@@ -41,6 +43,13 @@ const Method = {
       })
         .then(Api.toJSON)
         .then(PointsModel.adaptToClient(point))
+    }
+
+    deletePoint(point) {
+      return this._load({
+        url: `${DATA_TYPE.POINT}/${point.id}`,
+        method: Method.DELETE,
+      })
     }
   
     _load({

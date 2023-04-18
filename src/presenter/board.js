@@ -111,6 +111,7 @@ export default class Board {
       this._pointModel.addPoint(UpdateType, update);
       break;
     case UserAction.DELETE_POINT:
+      this._api.deletePoint(update)
       this._pointModel.deletePoint(UpdateType, update);
       break;
     }

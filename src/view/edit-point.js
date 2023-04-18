@@ -281,7 +281,6 @@ export default class PointEditForm extends Smart {
 
   _onPointInput(evt) {
     evt.preventDefault()
-    console.log(this._destinationModel.getDestinations())
     this.updateData({
       destination: Object.assign(
         {},
@@ -293,6 +292,7 @@ export default class PointEditForm extends Smart {
         }
       )
     })
+    console.log(this._pointState)
   }
 
   _onPointPriceInput(evt) {
