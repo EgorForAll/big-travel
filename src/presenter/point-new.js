@@ -1,6 +1,7 @@
 import { render, RenderPosition, remove } from "../utils/render";
 import { UserAction, UpdateType } from "../mock/const";
 import PointEditForm from "../view/edit-point";
+import { EMPTY_POINT } from "../utils/point";
 import { nanoid } from "nanoid";
 
 export default class NewPointPresenter {
@@ -24,7 +25,7 @@ export default class NewPointPresenter {
       return;
     }
 
-    this._pointEditComponent = new PointEditForm(this._offers, this._destination);
+    this._pointEditComponent = new PointEditForm(EMPTY_POINT, this._offers, this._destination);
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._pointEditComponent.setDeleteClickHandler(this._handleDeleteClick);
     this._pointEditComponent.hideEditFormClickHandler(this._handleDeleteClick);

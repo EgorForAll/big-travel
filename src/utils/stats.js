@@ -1,5 +1,16 @@
 import dayjs from "dayjs";
 
+const sumPrice = (points, type) => {
+  let sum = 0;
+  points.forEach(element => {
+    if (element.type === type.toLowerCase()) {
+      sum += element.price;
+    }
+  });
+
+  return sum;
+}
+
 export const createPriceArray = (points) => {
   return {
     Taxi: sumPrice(points, 'Taxi'),
@@ -9,27 +20,17 @@ export const createPriceArray = (points) => {
     Transport: sumPrice(points, 'Transport'),
     Drive: sumPrice(points, 'Drive'),
     Flight: sumPrice(points, 'Flight'),
-    Checkin: sumPrice(points, 'Checkin'),
-    Sightseeng: sumPrice(points, 'Sightseeng'),
+    Checkin: sumPrice(points, 'Check-in'),
+    Sightseeng: sumPrice(points, 'Sightseeing'),
     Restaurant: sumPrice(points, 'Restaurant')
   }
 };
 
-const sumPrice = (points, type) => {
-  let sum = 0;
-  points.forEach(element => {
-    if (element.type === type) {
-      sum += element.price;
-    }
-  });
-
-  return sum;
-}
 
 const sumType = (points, type) => {
   let sum = 0;
   points.forEach((point) => {
-    if (point.type === type) {
+    if (point.type === type.toLowerCase()) {
       sum += 1
     }
   })
@@ -45,8 +46,8 @@ export const createTypeArray = (points) => {
     Transport: sumType(points, 'Transport'),
     Drive: sumType(points, 'Drive'),
     Flight: sumType(points, 'Flight'),
-    Checkin: sumType(points, 'Checkin'),
-    Sightseeng: sumType(points, 'Sightseeng'),
+    Checkin: sumType(points, 'Check-in'),
+    Sightseeng: sumType(points, 'Sightseeing'),
     Restaurant: sumType(points, 'Restaurant')
   }
 };
@@ -54,14 +55,14 @@ export const createTypeArray = (points) => {
 const sumTime = (points, type) => {
  let sum = 0;
   points.forEach((point) => {
-    if (point.type === type) {
-      let dateFrom = point.date_from;
-      let dateTo = point.date_to;
-      let diff = Math.floor(dateTo.getTime() - dateFrom.getTime());
-      sum += diff;
+    if (point.type === type.toLowerCase()) {
+      let dateFrom = dayjs(point.date_from);
+      let dateTo = dayjs(point.date_to);
+      let diff = dateTo.diff(dateFrom);
+      sum = sum + diff;
+      console.log(sum)
     }
   })
-
     return sum;
 }
 
@@ -74,8 +75,13 @@ export const createTimeArray = (points) => {
     Transport: sumTime(points, 'Transport'),
     Drive: sumTime(points, 'Drive'),
     Flight: sumTime(points, 'Flight'),
-    Checkin: sumTime(points, 'Checkin'),
-    Sightseeng: sumTime(points, 'Sightseeng'),
+    Checkin: sumTime(points, 'Check-in'),
+    Sightseeng: sumTime(points, 'Sightseeing'),
     Restaurant: sumTime(points, 'Restaurant')
   }
 };
+
+export const OutputData = (val) => {
+  return Math.round(Math.floor(val/1000/60/60) / 24);
+}
+

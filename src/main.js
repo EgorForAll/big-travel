@@ -83,7 +83,6 @@ api.getData(DATA_TYPE.OFFERS)
 api.getData(DATA_TYPE.DESTINATIONS)
   .then((response) => {
     destinationsModel.setDestinations(UpdateType.INIT_DESTINATIONS, response);
-    console.log(destinationsModel.getDestinations())
   })
   .catch(() => {
     destinationsModel.setDestinations((UpdateType.INIT_DESTINATIONS, []));

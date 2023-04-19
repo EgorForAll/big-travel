@@ -1,6 +1,6 @@
 import { render, RenderPosition } from "../utils/render";
 import { TYPE } from "../mock/const";
-import { createPriceArray, createTimeArray, createTypeArray } from "../utils/stats";
+import { createPriceArray, createTimeArray, createTypeArray, OutputData } from "../utils/stats";
 import StatsView from "../view/stats";
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -40,6 +40,7 @@ export default class StatsPresenter {
 
   drawGrafics() {  
     const points = this._pointsModel.getPoints();
+    console.log(points)
     const moneyCtx = this.statsComponent.getElement().querySelector('#money');
     const typeCtx = this.statsComponent.getElement().querySelector('#type');
     const timeCtx = this.statsComponent.getElement().querySelector('#time-spend');
@@ -69,9 +70,9 @@ export default class StatsPresenter {
             font: {
               size: 13,
             },
-            color: '#000000',
+            color: '#ffffff',
             anchor: 'end',
-            align: 'end',
+            align: 'start',
             formatter: (val) => `€ ${val}`,
           },
         },
@@ -111,9 +112,9 @@ export default class StatsPresenter {
             font: {
               size: 13,
             },
-            color: '#000000',
+            color: '#ffffff',
             anchor: 'end',
-            align: 'end',
+            align: 'start',
             formatter: (val) => `${val}x`,
           },
         },
@@ -153,10 +154,10 @@ export default class StatsPresenter {
             font: {
               size: 13,
             },
-            color: '#000000',
+            color: '#ffffff',
             anchor: 'end',
-            align: 'end',
-            formatter: (val) => `${Math.floor(val/1000/60/60)} ч. ${Math.floor(val/1000/60/10)} м.`,
+            align: 'start',
+            formatter: (val) => `${Math.round(Math.floor(val/1000/60/60) / 24) > 0 ? Math.round(Math.floor(val/1000/60/60) / 24)  : ''} ${Math.floor(val/1000/60/60) % 24} ч. ${Math.floor(val/1000/60) % 60} м.`,
           },
         },
         title: {

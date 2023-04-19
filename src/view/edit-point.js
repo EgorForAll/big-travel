@@ -274,7 +274,7 @@ export default class PointEditForm extends Smart {
       return;
     }
     this.updateData({
-      type: evt.target.value,
+      type: evt.target.value.toLowerCase(),
       offer: pickOffersDependOnType(evt.target.value.toLowerCase(), this._offersModel.getOffers())
     })
   }

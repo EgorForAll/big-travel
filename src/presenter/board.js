@@ -75,7 +75,7 @@ export default class Board {
   createPoint() {
     this._currentSortType = SortType.DAY;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this._pointNewPresenter.init();
+    this._pointNewPresenter.init(this._offerModel, this._destinationModel);
   }
 
   _handleSortTypeChange(sortType) {
@@ -100,7 +100,6 @@ export default class Board {
   }
 
   _handleViewAction(actionType, UpdateType, update) {
-    console.log(update)
 
     switch (actionType) {
     case UserAction.UPDATE_POINT:
