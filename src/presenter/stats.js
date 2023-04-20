@@ -40,7 +40,6 @@ export default class StatsPresenter {
 
   drawGrafics() {  
     const points = this._pointsModel.getPoints();
-    console.log(points)
     const moneyCtx = this.statsComponent.getElement().querySelector('#money');
     const typeCtx = this.statsComponent.getElement().querySelector('#type');
     const timeCtx = this.statsComponent.getElement().querySelector('#time-spend');
@@ -157,7 +156,12 @@ export default class StatsPresenter {
             color: '#ffffff',
             anchor: 'end',
             align: 'start',
-            formatter: (val) => `${Math.round(Math.floor(val/1000/60/60) / 24) > 0 ? Math.round(Math.floor(val/1000/60/60) / 24)  : ''} ${Math.floor(val/1000/60/60) % 24} ч. ${Math.floor(val/1000/60) % 60} м.`,
+            formatter: (val) => {
+              const days = Math.round(Math.floor(val/1000/60/60) / 24);
+              const hours = Math.floor(val/1000/60/60) % 24;
+              const minutes = Math.floor(val/1000/60) % 60;
+              return days > 0 ? `${days} д. ${hours} ч. ${minutes} м.` : `${hours} ч. ${minutes} м.`
+            }
           },
         },
         title: {

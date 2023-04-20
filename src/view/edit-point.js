@@ -329,7 +329,9 @@ export default class PointEditForm extends Smart {
       {
         dateFormat: 'd/m/y H:i',
         defaultDate: this._pointState.date_from,
-        onChange: this._onDateFromChange
+        onChange: this._onDateFromChange,
+        enableTime: true,
+        time_24hr: true
       },
     );
 
@@ -338,7 +340,9 @@ export default class PointEditForm extends Smart {
       {
         dateFormat: 'd/m/y H:i',
         defaultDate: this._pointState.date_to,
-        onChange: this._onDateToChange
+        onChange: this._onDateToChange,
+        enableTime: true,
+        time_24hr: true
       },
     );
     }

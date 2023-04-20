@@ -60,7 +60,6 @@ const sumTime = (points, type) => {
       let dateTo = dayjs(point.date_to);
       let diff = dateTo.diff(dateFrom);
       sum = sum + diff;
-      console.log(sum)
     }
   })
     return sum;
